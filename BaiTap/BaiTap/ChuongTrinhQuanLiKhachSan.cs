@@ -30,14 +30,14 @@ namespace BaiTap
 
             if (tabControl1.SelectedTab == tabControl1.TabPages["tabQuanLiPhong"])
             {
-                frm = new Phong();
+                frm = new OrderImport();
                 FormatForm(frm);
                 tabControl1.TabPages["tabQuanLiPhong"].Controls.Add(frm);
             }
 
             if (tabControl1.SelectedTab == tabControl1.TabPages["tabQuanLyKhachHang"])
             {
-                frm = new QuanLyKhachSan();
+                frm = new OrderImportDetail();
                 FormatForm(frm);
                 tabControl1.TabPages["tabQuanLyKhachHang"].Controls.Add(frm);
             }

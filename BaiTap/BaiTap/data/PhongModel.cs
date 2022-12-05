@@ -13,6 +13,15 @@ namespace BaiTap.data
         public decimal DonGia { get; set; }
         public string TinhTrang { get; set; }
     }
+    public class PhieuModel
+    {
+        public int Id { get; set; }
+        public string MaPhieu { get; set; }
+        public string UserName { get; set; }
+        public int Total { get; set; }
+        public string Note { get; set; }
+        public DateTime? NgayNhap { get; set; }
+    }
     public class CmbTinhTrang
     {
         public string Name { get; set; }

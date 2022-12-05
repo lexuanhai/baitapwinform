@@ -14,7 +14,7 @@ namespace BaiTap
 {
     public partial class QuanLyKhachSan : Form
     {
-        SqlConnection con = new SqlConnection("Data Source=DESKTOP-DDVHBI0;Initial Catalog=QuanLyKhachSan;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=G07VNXDFVLTTI15;Initial Catalog=OrderDetails;Integrated Security=True");
         public QuanLyKhachSan()
         {
             InitializeComponent();

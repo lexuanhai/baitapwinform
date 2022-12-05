@@ -41,49 +41,54 @@ namespace BaiTap
             this.tabControl1.Controls.Add(this.tabQuanLiPhong);
             this.tabControl1.Controls.Add(this.tabQuanLyKhachHang);
             this.tabControl1.Controls.Add(this.tabThanhToan);
-            this.tabControl1.Location = new System.Drawing.Point(-1, 13);
+            this.tabControl1.Location = new System.Drawing.Point(-1, 16);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1047, 672);
+            this.tabControl1.Size = new System.Drawing.Size(1396, 827);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabQuanLiPhong
             // 
-            this.tabQuanLiPhong.Location = new System.Drawing.Point(4, 22);
+            this.tabQuanLiPhong.Location = new System.Drawing.Point(4, 25);
+            this.tabQuanLiPhong.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabQuanLiPhong.Name = "tabQuanLiPhong";
-            this.tabQuanLiPhong.Padding = new System.Windows.Forms.Padding(3);
-            this.tabQuanLiPhong.Size = new System.Drawing.Size(808, 388);
+            this.tabQuanLiPhong.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabQuanLiPhong.Size = new System.Drawing.Size(1388, 798);
             this.tabQuanLiPhong.TabIndex = 0;
-            this.tabQuanLiPhong.Text = "Quản lý phòng";
+            this.tabQuanLiPhong.Text = "Quản lý phiếu nhập";
             this.tabQuanLiPhong.UseVisualStyleBackColor = true;
             this.tabQuanLiPhong.Click += new System.EventHandler(this.tabQuanLiPhong_Click);
             // 
             // tabQuanLyKhachHang
             // 
-            this.tabQuanLyKhachHang.Location = new System.Drawing.Point(4, 22);
+            this.tabQuanLyKhachHang.Location = new System.Drawing.Point(4, 25);
+            this.tabQuanLyKhachHang.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabQuanLyKhachHang.Name = "tabQuanLyKhachHang";
-            this.tabQuanLyKhachHang.Padding = new System.Windows.Forms.Padding(3);
-            this.tabQuanLyKhachHang.Size = new System.Drawing.Size(808, 388);
+            this.tabQuanLyKhachHang.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabQuanLyKhachHang.Size = new System.Drawing.Size(1388, 798);
             this.tabQuanLyKhachHang.TabIndex = 1;
-            this.tabQuanLyKhachHang.Text = "Quản lý khách hàng";
+            this.tabQuanLyKhachHang.Text = "Quản lý chi tiết phiếu nhập";
             this.tabQuanLyKhachHang.UseVisualStyleBackColor = true;
             // 
             // tabThanhToan
             // 
-            this.tabThanhToan.Location = new System.Drawing.Point(4, 22);
+            this.tabThanhToan.Location = new System.Drawing.Point(4, 25);
+            this.tabThanhToan.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabThanhToan.Name = "tabThanhToan";
-            this.tabThanhToan.Size = new System.Drawing.Size(1039, 646);
+            this.tabThanhToan.Size = new System.Drawing.Size(1388, 798);
             this.tabThanhToan.TabIndex = 2;
             this.tabThanhToan.Text = "Thanh toán";
             this.tabThanhToan.UseVisualStyleBackColor = true;
             // 
             // ChuongTrinhQuanLiKhachSan
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(706, 689);
+            this.ClientSize = new System.Drawing.Size(941, 848);
             this.Controls.Add(this.tabControl1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ChuongTrinhQuanLiKhachSan";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ChuongTrinhQuanLiKhachSan";

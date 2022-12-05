@@ -53,7 +53,20 @@
       <DependentUpon>ChuongTrinhQuanLiKhachSan.cs</DependentUpon>
     </Compile>
     <Compile Include="data\KhachHangModel.cs" />
+    <Compile Include="data\OrderImportDetailModel.cs" />
     <Compile Include="data\PhongModel.cs" />
+    <Compile Include="OrderImportDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderImportDetail.Designer.cs">
+      <DependentUpon>OrderImportDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OrderImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OrderImport.Designer.cs">
+      <DependentUpon>OrderImport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Phong.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +89,12 @@
     </Compile>
     <EmbeddedResource Include="ChuongTrinhQuanLiKhachSan.resx">
       <DependentUpon>ChuongTrinhQuanLiKhachSan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderImportDetail.resx">
+      <DependentUpon>OrderImportDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OrderImport.resx">
+      <DependentUpon>OrderImport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Phong.resx">
       <DependentUpon>Phong.cs</DependentUpon>

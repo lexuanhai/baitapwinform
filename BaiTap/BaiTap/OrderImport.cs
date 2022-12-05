@@ -12,10 +12,10 @@ using System.Windows.Forms;
 
 namespace BaiTap
 {
-    public partial class Phong : Form
+    public partial class OrderImport : Form
     {
         SqlConnection con = new SqlConnection("Data Source=G07VNXDFVLTTI15;Initial Catalog=MyPham;Integrated Security=True");
-        public Phong()
+        public OrderImport()
         {
             InitializeComponent();
         }
@@ -24,25 +24,40 @@ namespace BaiTap
         {
 
         }
-
       
         private void Phong_Load(object sender, EventArgs e)
         {
             LoadFormcustom();
+            LoadDataCombobox();
             //btnSua.Enabled = false;
             //btnXoa.Enabled = false;
 
-            var _cmbTinhTrang = new List<CmbTinhTrang>() {
-                new CmbTinhTrang(){Name="Da cho thue",Text="Có khách"},
-                new CmbTinhTrang(){Name="Chua cho thue",Text="Trống"},
-            };
-            cmbTinhTrang.DataSource = _cmbTinhTrang;
-            cmbTinhTrang.DisplayMember = "Text";
-            cmbTinhTrang.ValueMember = "Name";
+            //var _cmbTinhTrang = new List<CmbTinhTrang>() {
+            //    new CmbTinhTrang(){Name="Da cho thue",Text="Có khách"},
+            //    new CmbTinhTrang(){Name="Chua cho thue",Text="Trống"},
+            //};
+            //cmbNhanVien.DataSource = _cmbTinhTrang;
+            //cmbNhanVien.DisplayMember = "Text";
+            //cmbNhanVien.ValueMember = "Name";
+        }
+        public void LoadDataCombobox()
+        {
+            string query = "select MaNV, Name from Staff";
+            con.Open();
+            SqlCommand da = new SqlCommand(query, con);
+            DataTable dt = new DataTable();
+           
+            SqlDataReader myReader = da.ExecuteReader();
+            dt.Load(myReader);
+                      
+            cmbNhanVien.DisplayMember = "Name";
+            cmbNhanVien.ValueMember = "MaNV";
+            cmbNhanVien.DataSource = dt;
+            con.Close();
         }
         public void LoadFormcustom()
         {
-            SqlDataAdapter sda = new SqlDataAdapter("select * from OrderImport", con);
+            SqlDataAdapter sda = new SqlDataAdapter("select CodeOrder,UserName,CreateDated,Total,Note,MaNV,Name from OrderImport od\r\nleft join Staff st on od.UserName = st.MaNV", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             dgvPhong.Rows.Clear();
@@ -50,36 +65,38 @@ namespace BaiTap
             {
 
                 int n = dgvPhong.Rows.Add();
-                dgvPhong.Rows[n].Cells[0].Value = dr[0].ToString();
-                dgvPhong.Rows[n].Cells[1].Value = dr[1].ToString();
-                dgvPhong.Rows[n].Cells[2].Value = dr[2].ToString();
-                dgvPhong.Rows[n].Cells[3].Value = dr[3].ToString();
+                dgvPhong.Rows[n].Cells[0].Value = dr["CodeOrder"].ToString();
+                dgvPhong.Rows[n].Cells[1].Value = dr["MaNV"].ToString();
+                dgvPhong.Rows[n].Cells[2].Value = dr["Name"].ToString();
+                dgvPhong.Rows[n].Cells[3].Value = dr["CreateDated"].ToString();
+                dgvPhong.Rows[n].Cells[4].Value = dr["Total"].ToString();
 
             }
         }
-
-        public PhongModel GetValue()
+        
+        public PhieuModel GetValue()
         {
-            var model = new PhongModel();
-            model.MaPhong = txtPhong.Text;
-            model.SoGiuong = Convert.ToInt32(txtGiuong.Text);
-            model.DonGia = Convert.ToDecimal(txtDonGia.Text);
-            model.TinhTrang = cmbTinhTrang.SelectedValue.ToString();           
+            var model = new PhieuModel();
+            model.MaPhieu = txsMaPhieu.Text;
+            //model.UserName = txt.Text;
+            model.Total = Convert.ToInt32(txtTongSanPham.Text);
+            //model.DonGia = Convert.ToDecimal(txtTongSanPham.Text);
+            model.UserName = cmbNhanVien.SelectedValue.ToString();
+            model.Note = txtNote.Text;
             return model;
         }
-        public void SetValue(PhongModel model)
+        public void SetValue(PhieuModel model)
         {
-            txtPhong.Text = model.MaPhong;
-            txtGiuong.Text = Convert.ToString(model.SoGiuong);
-            txtDonGia.Text = Convert.ToString(model.DonGia);
-            //cmbTinhTrang.SelectedValue = model.TinhTrang;
+            txsMaPhieu.Text = model.MaPhieu;
+            txtTongSanPham.Text = Convert.ToString(model.Total);
+            cmbNhanVien.SelectedValue = model.UserName;
         }
         public void SetValueNull()
         {
-            txtPhong.Text = "";
-            txtGiuong.Text = "";
-            txtDonGia.Text = "";
-            cmbTinhTrang.SelectedItem = "";
+            txsMaPhieu.Text = "";
+            txtNote.Text = "";
+            txtTongSanPham.Text = "";
+            cmbNhanVien.SelectedItem = "";
         }
 
         private void btnThem_Click(object sender, EventArgs e)
@@ -90,24 +107,33 @@ namespace BaiTap
 
                 var model = GetValue();
 
-                if (ExistMaKH(model.MaPhong))
+                if (ExistMaKH(model.MaPhieu))
                 {
-                    MessageBox.Show("Mã phòng " + model.MaPhong + " đã tồn tại vui lòng nhập mã khác");
+                    MessageBox.Show("Mã phiếu " + model.MaPhieu + " đã tồn tại vui lòng nhập mã khác");
                 }
                 else
                 {
-                    var qry = "insert into Phong values('" + model.MaPhong + "','" + model.SoGiuong + "'," + model.DonGia + ",'" + model.TinhTrang + "')";
+                    model.NgayNhap = DateTime.Now;
+                    var qry = "insert into OrderImport values('" + model.MaPhieu + "','" + model.UserName + "','" + model.NgayNhap + "'," + model.Total + ",'N" + model.Note + "')";
                     SqlCommand sc = new SqlCommand(qry, con);
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
                     int i = sc.ExecuteNonQuery();
                     if (i >= 1)
                     {
-                        MessageBox.Show("Thêm mới " + model.MaPhong + " thành công.");
+                        MessageBox.Show("Thêm mới " + model.MaPhieu + " thành công.");
                         LoadFormcustom();
                         SetValueNull();
                     }
                     else
                     {
-                        MessageBox.Show("Thêm mới " + model.MaPhong + " không thành công.");
+                        MessageBox.Show("Thêm mới " + model.MaPhieu + " không thành công.");
+                    }
+                    if (con.State == ConnectionState.Open)
+                    {
+                        con.Close();
                     }
                 }
 
@@ -144,10 +170,10 @@ namespace BaiTap
             {
                 con.Open();
             }
-            string query = ""; //"select * from Employee where maPhong = @maPhong";
+            string query = "";
             if (!string.IsNullOrEmpty(maP))
             {
-                query = "select * from Phong where MaP = @maP";
+                query = "select * from OrderImport where CodeOrder = @maP";
             }
             SqlDataAdapter sda = new SqlDataAdapter(query, con);
 
@@ -174,19 +200,19 @@ namespace BaiTap
             {
                 con.Open();
                 var model = GetValue();
-                String qry = "update Phong set MaP='" + model.MaPhong + "', SoGiuong=" + model.SoGiuong + ", DonGia=" + model.DonGia + ", TinhTrang='" + model.TinhTrang + "' where MaP='" + model.MaPhong + "'";
+                String qry = "update OrderImport set Total=" + model.Total + " where CodeOrder='" + model.MaPhieu + "'";
                 SqlCommand sc = new SqlCommand(qry, con);
                 int i = sc.ExecuteNonQuery();
                 if (i >= 1)
                 {
-                    MessageBox.Show("Cập nhật thành công " + model.MaPhong + " thành công.");
+                    MessageBox.Show("Cập nhật thành công " + model.MaPhieu + " thành công.");
                     LoadFormcustom();
                     SetValueNull();
                 }
                 else
                 {
-                    MessageBox.Show("Cập nhật " + model.MaPhong + " không thành công.");
-                }                                                  
+                    MessageBox.Show("Cập nhật " + model.MaPhieu + " không thành công.");
+                }
                 con.Close();
             }
             catch (System.Exception exp)
@@ -198,12 +224,12 @@ namespace BaiTap
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Bạn có chắc muốn mã phòng "+ txtPhong.Text.ToString() + " xóa?","", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Bạn có chắc muốn mã phòng "+ txsMaPhieu.Text.ToString() + " xóa?","", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 con.Open();
-                string map = txtPhong.Text.ToString();
-                string qry = "delete from Phong where Map='" + map + "'";
+                string map = txsMaPhieu.Text.ToString();
+                string qry = "delete from OrderImport where CodeOrder='" + map + "'";
                 SqlCommand sc = new SqlCommand(qry, con);
                 int i = sc.ExecuteNonQuery();
                 if (i >= 1)
@@ -236,38 +262,40 @@ namespace BaiTap
 
         private void dgvPhong_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            txtPhong.ReadOnly = true;
+            txsMaPhieu.ReadOnly = true;
             foreach (DataGridViewCell cell in dgvPhong.SelectedCells)
             {
                 //cell.RowIndex
 
-                if (dgvPhong.Rows[cell.RowIndex].Cells[0].Value != null)
+                if (dgvPhong.Rows[cell.RowIndex].Cells["CodeOrder"].Value != null)
                 {
-                    txtPhong.Text = dgvPhong.Rows[cell.RowIndex].Cells[0].Value.ToString();
+                    txsMaPhieu.Text = dgvPhong.Rows[cell.RowIndex].Cells["CodeOrder"].Value.ToString();
                 }
-                if (dgvPhong.Rows[cell.RowIndex].Cells[1].Value != null)
+                if (dgvPhong.Rows[cell.RowIndex].Cells["MaNV"].Value != null)
                 {
-                    txtGiuong.Text = dgvPhong.Rows[cell.RowIndex].Cells[1].Value.ToString();
+                    cmbNhanVien.SelectedValue = dgvPhong.Rows[cell.RowIndex].Cells["MaNV"].Value.ToString();                   
                 }
-                if (dgvPhong.Rows[cell.RowIndex].Cells[2].Value != null)
+                if (dgvPhong.Rows[cell.RowIndex].Cells["Total"].Value != null)
                 {
-                    txtDonGia.Text = dgvPhong.Rows[cell.RowIndex].Cells[2].Value.ToString();
+                    txtTongSanPham.Text = dgvPhong.Rows[cell.RowIndex].Cells["Total"].Value.ToString();
                 }
-                if (dgvPhong.Rows[cell.RowIndex].Cells[3].Value != null)
-                {
-                    cmbTinhTrang.SelectedValue = dgvPhong.Rows[cell.RowIndex].Cells[3].Value.ToString();
-                }
-                
-               
-              
+                //if (dgvPhong.Rows[cell.RowIndex].Cells[3].Value != null)
+                //{
+                //    cmbNhanVien.SelectedValue = dgvPhong.Rows[cell.RowIndex].Cells[3].Value.ToString();
+                //}
                 //if (textCmb == "Chua cho thue")
                 //{
                 //    cmbTinhTrang.SelectedValue = 
                 //}
-                cmbTinhTrang.Show();
-
+                cmbNhanVien.Show();
                 //cmbMaPhong.SelectedValue = dgvPhong.Rows[cell.RowIndex].Cells[4].Value.ToString();
                 //cmbMaPhong.Show();
+
+                //dgvPhong.Rows[n].Cells[0].Value = dr["CodeOrder"].ToString();
+                //dgvPhong.Rows[n].Cells[1].Value = dr["MaNV"].ToString();
+                //dgvPhong.Rows[n].Cells[2].Value = dr["Name"].ToString();
+                //dgvPhong.Rows[n].Cells[3].Value = dr["CreateDated"].ToString();
+                //dgvPhong.Rows[n].Cells[4].Value = dr["Total"].ToString();
             }
         }
     }

@@ -21,33 +21,42 @@ namespace BaiTap
 
         private void tabQuanLiPhong_Click(object sender, EventArgs e)
         {
-            Application.Run(new Phong());
+            Application.Run(new OrderExport());
         }
         public void LoadIndexForm()
         {
             Form frm = new Form();
 
 
-            if (tabControl1.SelectedTab == tabControl1.TabPages["tabQuanLiPhong"])
+            if (tabChuongTrinh.SelectedTab == tabChuongTrinh.TabPages["tabQuanLiPhong"])
             {
                 frm = new OrderImport();
                 FormatForm(frm);
-                tabControl1.TabPages["tabQuanLiPhong"].Controls.Add(frm);
+                tabChuongTrinh.TabPages["tabQuanLiPhong"].Controls.Add(frm);
             }
 
-            if (tabControl1.SelectedTab == tabControl1.TabPages["tabQuanLyKhachHang"])
+            if (tabChuongTrinh.SelectedTab == tabChuongTrinh.TabPages["tabQuanLyKhachHang"])
             {
                 frm = new OrderImportDetail();
                 FormatForm(frm);
-                tabControl1.TabPages["tabQuanLyKhachHang"].Controls.Add(frm);
+                tabChuongTrinh.TabPages["tabQuanLyKhachHang"].Controls.Add(frm);
+            }
+            if (tabChuongTrinh.SelectedTab == tabChuongTrinh.TabPages["tabPhieuXuat"])
+            {
+                frm = new OrderExport();
+                FormatForm(frm);
+                tabChuongTrinh.TabPages["tabPhieuXuat"].Controls.Add(frm);
             }
 
-            if (tabControl1.SelectedTab == tabControl1.TabPages["tabThanhToan"])
+
+            if (tabChuongTrinh.SelectedTab == tabChuongTrinh.TabPages["tabThanhToan"])
             {
                 frm = new Thanh_Toan();
                 FormatForm(frm);
-                tabControl1.TabPages["tabThanhToan"].Controls.Add(frm);
+                tabChuongTrinh.TabPages["tabThanhToan"].Controls.Add(frm);
             }
+
+
         }
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {

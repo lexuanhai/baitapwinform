@@ -15,11 +15,10 @@ namespace BaiTap
 
     public partial class OrderExportDetail : Form
     {
-        private int OrderDetailImportId = 0;
-        SqlConnection con = new SqlConnection("Data Source=DESKTOP-DDVHBI0;Initial Catalog=MyPham;Integrated Security=True");
+        private int OrderExportDetailId = 0;
+        SqlConnection con = new SqlConnection("Data Source=G07VNXDFVLTTI15;Initial Catalog=MyPham;Integrated Security=True");
         public OrderExportDetail()
         {
-            txtTenDaiLy.ReadOnly = true;
             InitializeComponent();
         }
 
@@ -66,7 +65,7 @@ namespace BaiTap
         }
         public void LoadFormcustom()
         {
-            SqlDataAdapter sda = new SqlDataAdapter("SELECT oid.Id as OrderExportId, oi.Code As Code,oid.Status as Status, ,UserName, oi.AgentName, pr.id as ProductId,pr.price, pr.name as ProductName, oid.Quantity as OrderDetailExportQuantity, oid.TotalPrice as OrderDetailExportTotalPrice, oid.Note as OrderDetailExportNote FROM OrderExport oi inner join OrderExportDetail oid on oi.Id = oid.OrderExportId inner join Products pr on oid.ProductId = pr.id", con);
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT oid.Id as OrderExportId, oi.Code As Code,oid.Status as [Status] ,UserName, oi.AgentName, pr.id as ProductId,pr.price, pr.name as ProductName, oid.Quantity as OrderDetailExportQuantity, oid.TotalPrice as OrderDetailExportTotalPrice, oid.Note as OrderDetailExportNote FROM OrderExport oi inner join OrderExportDetail oid on oi.Id = oid.OrderExportId inner join Products pr on oid.ProductId = pr.id", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             dgvOrderExportDetail.Rows.Clear();
@@ -125,24 +124,27 @@ namespace BaiTap
             return phieuModel;
         }
 
-        public OrderExportModel GetProductById(int productId)
+        public ProductModel GetProductById(int productId)
         {
             if (con.State == ConnectionState.Closed)
             {
                 con.Open();
             }
-            SqlDataAdapter sda = new SqlDataAdapter("select Id,Code,AgentName from OrderExport where Id = '" + productId + "'", con);
+            SqlDataAdapter sda = new SqlDataAdapter("select Id,name,priceCustom from Products where Id = '" + productId + "'", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             dgvOrderExportDetail.Rows.Clear();
-            var phieuModel = new OrderExportModel();
+            var product = new ProductModel();
             foreach (DataRow dr in dt.Rows)
             {
-                phieuModel.Code = dr["Code"].ToString();
-                phieuModel.Id = Convert.ToInt32(dr["Id"].ToString());
-                phieuModel.AgentName = dr["AgentName"].ToString();
+                product.Id = Convert.ToInt32(dr["Id"]);
+                product.Name = dr["name"].ToString();
+                if (dr["priceCustom"] != null)
+                {
+                    product.Price = Convert.ToDecimal(dr["priceCustom"]);
+                }
             }
-            return phieuModel;
+            return product;
         }
 
         public OrderExportDetailModel GetValue()
@@ -191,33 +193,46 @@ namespace BaiTap
                 }
 
                 var model = GetValue();
-                decimal totalPrice = 0;
-                if (model.TotalPrice > 0 && model.Quantity > 0)
+                if (model != null)
                 {
-                    totalPrice = model.TotalPrice
+                    var product = new ProductModel();
+                    if (model.ProductId > 0)
+                    {
+                        product = GetProductById(model.ProductId);
+                    }
+                    if (product != null)
+                    {
+                        decimal totalPrice = 0;
+                        if (model.Quantity > 0 && product.Price > 0)
+                        {
+                            model.TotalPrice = model.Quantity * product.Price;
+                        }
+                    }
+                   
+                    var qry = "insert into OrderExportDetail(ProductId,OrderExportId,Quantity,TotalPrice,Status,Note)" +
+                    "values(" + model.ProductId + "," + model.OrderExportId + "," + model.Quantity + "," + model.TotalPrice + ",'N" + model.Status + "','N" + model.Note + "')";
+                    SqlCommand sc = new SqlCommand(qry, con);
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+                    int i = sc.ExecuteNonQuery();
+                    if (i >= 1)
+                    {
+                        MessageBox.Show("Thêm mới  thành công.");
+                        LoadFormcustom();
+                        SetValueNull();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Thêm mới không thành công.");
+                    }
                 }
-
-                var qry = "insert into OrderExportDetail(ProductId,OrderExportId,Quantity,TotalPrice,Status,Note) values(" + model.ProductId + "," + model.OrderExportId + "," + model.Quantity + "," + model.TotalPrice + ",'N" + model.Note + "')";
-                SqlCommand sc = new SqlCommand(qry, con);
-                if (con.State == ConnectionState.Closed)
-                {
-                    con.Open();
-                }
-                int i = sc.ExecuteNonQuery();
-                if (i >= 1)
-                {
-                    MessageBox.Show("Thêm mới " + model.MaPhieu + " thành công.");
-                    LoadFormcustom();
-                    SetValueNull();
-                }
-                else
-                {
-                    MessageBox.Show("Thêm mới " + model.MaPhieu + " không thành công.");
-                }
-                if (con.State == ConnectionState.Open)
-                {
-                    con.Close();
-                }
+                
+                //if (con.State == ConnectionState.Open)
+                //{
+                //    con.Close();
+                //}
 
                 con.Close();
 
@@ -277,30 +292,46 @@ namespace BaiTap
         {
             try
             {
-                //if (OrderDetailImportId > 0)
-                //{
-                //    if (con.State == ConnectionState.Closed)
-                //    {
-                //        con.Open();
-                //    }
-                //    var model = GetValue();
-                //    String qry = "update OrderImportDetail set Quantity=" + model.Total + ", TotalPrice = "+ model.TotalPrice + ", Note =N'"+model.Note+"' where Id=" + OrderDetailImportId + "";
-                //    SqlCommand sc = new SqlCommand(qry, con);
-                //    int i = sc.ExecuteNonQuery();
-                //    if (i >= 1)
-                //    {
-                //        MessageBox.Show("Cập nhật thành công.");
-                //        LoadFormcustom();
-                //        SetValueNull();
-                //    }
-                //    else
-                //    {
-                //        MessageBox.Show("Cập nhật không thành công.");
-                //    }
-                //    con.Close();
-                //    OrderDetailImportId = 0;
-                //}
-                
+                if (OrderExportDetailId > 0)
+                {
+                    if (con.State == ConnectionState.Closed)
+                    {
+                        con.Open();
+                    }
+                    var model = GetValue();
+                    if (model != null)
+                    {
+                        var product = new ProductModel();
+                        if (model.ProductId > 0)
+                        {
+                            product = GetProductById(model.ProductId);
+                        }
+                        if (product != null)
+                        {
+                            if (model.Quantity > 0 && product.Price > 0)
+                            {
+                                model.TotalPrice = model.Quantity * product.Price;
+                            }
+                        }
+                        String qry = "update OrderExportDetail set Quantity=" + model.Quantity + ", TotalPrice = " + model.TotalPrice + ", Note=N'" + model.Note + "',Status=N'" + model.Status + "' where Id=" + OrderExportDetailId + "";
+                        SqlCommand sc = new SqlCommand(qry, con);
+                        int i = sc.ExecuteNonQuery();
+                        if (i >= 1)
+                        {
+                            MessageBox.Show("Cập nhật thành công.");
+                            LoadFormcustom();
+                            SetValueNull();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Cập nhật không thành công.");
+                        }
+                        con.Close();
+                    }
+                   
+                    OrderExportDetailId = 0;
+                }
+
             }
             catch (System.Exception exp)
             {
@@ -314,13 +345,13 @@ namespace BaiTap
             DialogResult dialogResult = MessageBox.Show("Bạn có chắc muốn xóa?", "", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                if (OrderDetailImportId > 0)
+                if (OrderExportDetailId > 0)
                 {
                     if (con.State == ConnectionState.Closed)
                     {
                         con.Open();
                     }
-                    string qry = "delete from OrderImportDetail where Id=" + OrderDetailImportId + "";
+                    string qry = "delete from OrderExportDetail where Id=" + OrderExportDetailId + "";
                     SqlCommand sc = new SqlCommand(qry, con);
                     int i = sc.ExecuteNonQuery();
                     if (i >= 1)
@@ -365,7 +396,40 @@ namespace BaiTap
 
         private void dgvOrderExportDetail_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            foreach (DataGridViewCell cell in dgvOrderExportDetail.SelectedCells)
+            {
+                //cell.RowIndex
+                if (dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdId"].Value != null)
+                {
+                    OrderExportDetailId = Convert.ToInt32(dgvOrderExportDetail.Rows[cell.RowIndex].Cells["Id"].Value.ToString());
+                }
+                if (dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdCode"].Value != null)
+                {
+                    cmbMaPhieu.SelectedValue = dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdCode"].Value.ToString();
+                }
 
+                if (dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdMaSanPham"].Value != null)
+                {
+                    cmbSanPham.SelectedValue = dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdMaSanPham"].Value.ToString();
+                }
+                if (dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdTenDaiLy"].Value != null)
+                {
+                    txtTenDaiLy.Text = dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdTenDaiLy"].Value.ToString();
+                }
+                if (dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdTotal"].Value != null)
+                {
+                    txtSoLuong.Text = dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdTotal"].Value.ToString();
+                }
+
+                if (dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdTrangThai"].Value != null)
+                {
+                    cmbTinhTrang.SelectedItem = dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdTrangThai"].Value.ToString();
+                }
+                if (dgvOrderExportDetail.Rows[cell.RowIndex].Cells["Note"].Value != null)
+                {
+                    txtNote.Text = dgvOrderExportDetail.Rows[cell.RowIndex].Cells["Note"].Value.ToString();
+                }
+            }
         }
     }
 }

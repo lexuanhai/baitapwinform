@@ -47,6 +47,12 @@ namespace BaiTap
                 FormatForm(frm);
                 tabChuongTrinh.TabPages["tabPhieuXuat"].Controls.Add(frm);
             }
+            if (tabChuongTrinh.SelectedTab == tabChuongTrinh.TabPages["tabChiTietPhieuXuat"])
+            {
+                frm = new OrderExportDetail();
+                FormatForm(frm);
+                tabChuongTrinh.TabPages["tabChiTietPhieuXuat"].Controls.Add(frm);
+            }
 
 
             if (tabChuongTrinh.SelectedTab == tabChuongTrinh.TabPages["tabThanhToan"])

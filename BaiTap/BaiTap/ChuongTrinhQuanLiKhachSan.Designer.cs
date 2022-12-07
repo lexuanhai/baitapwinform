@@ -29,33 +29,33 @@ namespace BaiTap
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabChuongTrinh = new System.Windows.Forms.TabControl();
             this.tabQuanLiPhong = new System.Windows.Forms.TabPage();
             this.tabQuanLyKhachHang = new System.Windows.Forms.TabPage();
             this.tabThanhToan = new System.Windows.Forms.TabPage();
-            this.tabControl1.SuspendLayout();
+            this.tabPhieuXuat = new System.Windows.Forms.TabPage();
+            this.tabChuongTrinh.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // tabChuongTrinh
             // 
-            this.tabControl1.Controls.Add(this.tabQuanLiPhong);
-            this.tabControl1.Controls.Add(this.tabQuanLyKhachHang);
-            this.tabControl1.Controls.Add(this.tabThanhToan);
-            this.tabControl1.Location = new System.Drawing.Point(-1, 16);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1396, 827);
-            this.tabControl1.TabIndex = 0;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            this.tabChuongTrinh.Controls.Add(this.tabQuanLiPhong);
+            this.tabChuongTrinh.Controls.Add(this.tabQuanLyKhachHang);
+            this.tabChuongTrinh.Controls.Add(this.tabThanhToan);
+            this.tabChuongTrinh.Controls.Add(this.tabPhieuXuat);
+            this.tabChuongTrinh.Location = new System.Drawing.Point(-1, 13);
+            this.tabChuongTrinh.Name = "tabChuongTrinh";
+            this.tabChuongTrinh.SelectedIndex = 0;
+            this.tabChuongTrinh.Size = new System.Drawing.Size(1047, 672);
+            this.tabChuongTrinh.TabIndex = 0;
+            this.tabChuongTrinh.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabQuanLiPhong
             // 
-            this.tabQuanLiPhong.Location = new System.Drawing.Point(4, 25);
-            this.tabQuanLiPhong.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabQuanLiPhong.Location = new System.Drawing.Point(4, 22);
             this.tabQuanLiPhong.Name = "tabQuanLiPhong";
-            this.tabQuanLiPhong.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabQuanLiPhong.Size = new System.Drawing.Size(1388, 798);
+            this.tabQuanLiPhong.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabQuanLiPhong.Size = new System.Drawing.Size(1039, 646);
             this.tabQuanLiPhong.TabIndex = 0;
             this.tabQuanLiPhong.Text = "Quản lý phiếu nhập";
             this.tabQuanLiPhong.UseVisualStyleBackColor = true;
@@ -63,45 +63,53 @@ namespace BaiTap
             // 
             // tabQuanLyKhachHang
             // 
-            this.tabQuanLyKhachHang.Location = new System.Drawing.Point(4, 25);
-            this.tabQuanLyKhachHang.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabQuanLyKhachHang.Location = new System.Drawing.Point(4, 22);
             this.tabQuanLyKhachHang.Name = "tabQuanLyKhachHang";
-            this.tabQuanLyKhachHang.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabQuanLyKhachHang.Size = new System.Drawing.Size(1388, 798);
+            this.tabQuanLyKhachHang.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabQuanLyKhachHang.Size = new System.Drawing.Size(1039, 646);
             this.tabQuanLyKhachHang.TabIndex = 1;
             this.tabQuanLyKhachHang.Text = "Quản lý chi tiết phiếu nhập";
             this.tabQuanLyKhachHang.UseVisualStyleBackColor = true;
             // 
             // tabThanhToan
             // 
-            this.tabThanhToan.Location = new System.Drawing.Point(4, 25);
-            this.tabThanhToan.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabThanhToan.Location = new System.Drawing.Point(4, 22);
             this.tabThanhToan.Name = "tabThanhToan";
-            this.tabThanhToan.Size = new System.Drawing.Size(1388, 798);
+            this.tabThanhToan.Size = new System.Drawing.Size(1039, 646);
             this.tabThanhToan.TabIndex = 2;
             this.tabThanhToan.Text = "Thanh toán";
             this.tabThanhToan.UseVisualStyleBackColor = true;
             // 
+            // tabPhieuXuat
+            // 
+            this.tabPhieuXuat.Location = new System.Drawing.Point(4, 22);
+            this.tabPhieuXuat.Name = "tabPhieuXuat";
+            this.tabPhieuXuat.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPhieuXuat.Size = new System.Drawing.Size(1039, 646);
+            this.tabPhieuXuat.TabIndex = 3;
+            this.tabPhieuXuat.Text = "Quản lý phiếu xuất";
+            this.tabPhieuXuat.UseVisualStyleBackColor = true;
+            // 
             // ChuongTrinhQuanLiKhachSan
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(941, 848);
-            this.Controls.Add(this.tabControl1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ClientSize = new System.Drawing.Size(706, 689);
+            this.Controls.Add(this.tabChuongTrinh);
             this.Name = "ChuongTrinhQuanLiKhachSan";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ChuongTrinhQuanLiKhachSan";
-            this.tabControl1.ResumeLayout(false);
+            this.tabChuongTrinh.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabChuongTrinh;
         private System.Windows.Forms.TabPage tabQuanLiPhong;
         private System.Windows.Forms.TabPage tabQuanLyKhachHang;
         private System.Windows.Forms.TabPage tabThanhToan;
+        private System.Windows.Forms.TabPage tabPhieuXuat;
     }
 }

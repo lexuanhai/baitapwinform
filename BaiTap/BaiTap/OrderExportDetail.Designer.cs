@@ -49,7 +49,6 @@ namespace BaiTap
             this.btnThem = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvOrderExportDetail = new System.Windows.Forms.DataGridView();
-            this.label5 = new System.Windows.Forms.Label();
             this.tdId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tdCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tdMaSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -60,6 +59,7 @@ namespace BaiTap
             this.tdTongGia = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tdNote = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tdTrangThai = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -282,16 +282,6 @@ namespace BaiTap
             this.dgvOrderExportDetail.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOrderExportDetail_CellClick);
             this.dgvOrderExportDetail.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgvPhong_MouseClick);
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(331, 37);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(200, 25);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Chi Tiết Phiếu Xuất";
-            // 
             // tdId
             // 
             this.tdId.HeaderText = "Id";
@@ -356,6 +346,16 @@ namespace BaiTap
             this.tdTrangThai.HeaderText = "Trạng thái";
             this.tdTrangThai.Name = "tdTrangThai";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(331, 37);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(200, 25);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Chi Tiết Phiếu Xuất";
+            // 
             // OrderExportDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -367,7 +367,7 @@ namespace BaiTap
             this.Controls.Add(this.groupBox1);
             this.Name = "OrderExportDetail";
             this.Text = "Phiếu nhập";
-            this.Load += new System.EventHandler(this.Phong_Load);
+            this.Load += new System.EventHandler(this.OrderExportDetail_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel1.ResumeLayout(false);

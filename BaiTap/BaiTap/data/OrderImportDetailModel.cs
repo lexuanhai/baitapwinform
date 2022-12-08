@@ -15,8 +15,15 @@ namespace BaiTap.data
         public string MaSanPham { get; set; }
         public int Total { get; set; }
         public string Note { get; set; }
-        public decimal TotalPrice { get; set; }
+        public decimal Price { get; set; }
         public DateTime? NgayNhap { get; set; }
     }
-  
+    public class OrderImportDetailExportModel
+    {
+        public string Name { get; set; }
+        public PhieuModel PhieuNhap { get; set; } 
+        public List<ProductModel> Products { get; set; }
+    }
+
+
 }

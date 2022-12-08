@@ -14,7 +14,7 @@ namespace BaiTap
 {
     public partial class OrderImport : Form
     {
-        SqlConnection con = new SqlConnection("Data Source=G07VNXDFVLTTI15;Initial Catalog=MyPham;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=DESKTOP-DDVHBI0;Initial Catalog=MyPham;Integrated Security=True");
         public OrderImport()
         {
             InitializeComponent();
@@ -42,36 +42,36 @@ namespace BaiTap
         }
         public void LoadDataCombobox()
         {
-            //string query = "select MaNV, Name from Staff";
-            //con.Open();
-            //SqlCommand da = new SqlCommand(query, con);
-            //DataTable dt = new DataTable();
-           
-            //SqlDataReader myReader = da.ExecuteReader();
-            //dt.Load(myReader);
-                      
-            //cmbNhanVien.DisplayMember = "Name";
-            //cmbNhanVien.ValueMember = "MaNV";
-            //cmbNhanVien.DataSource = dt;
-            //con.Close();
+            string query = "select MaNV, Name from Staff";
+            con.Open();
+            SqlCommand da = new SqlCommand(query, con);
+            DataTable dt = new DataTable();
+
+            SqlDataReader myReader = da.ExecuteReader();
+            dt.Load(myReader);
+
+            cmbNhanVien.DisplayMember = "Name";
+            cmbNhanVien.ValueMember = "MaNV";
+            cmbNhanVien.DataSource = dt;
+            con.Close();
         }
         public void LoadFormcustom()
         {
-            //SqlDataAdapter sda = new SqlDataAdapter("select CodeOrder,UserName,CreateDated,Total,Note,MaNV,Name from OrderImport od\r\nleft join Staff st on od.UserName = st.MaNV", con);
-            //DataTable dt = new DataTable();
-            //sda.Fill(dt);
-            //dgvPhong.Rows.Clear();
-            //foreach (DataRow dr in dt.Rows)
-            //{
-
-            //    int n = dgvPhong.Rows.Add();
-            //    dgvPhong.Rows[n].Cells[0].Value = dr["CodeOrder"].ToString();
-            //    dgvPhong.Rows[n].Cells[1].Value = dr["MaNV"].ToString();
-            //    dgvPhong.Rows[n].Cells[2].Value = dr["Name"].ToString();
-            //    dgvPhong.Rows[n].Cells[3].Value = dr["CreateDated"].ToString();
-            //    dgvPhong.Rows[n].Cells[4].Value = dr["Total"].ToString();
-
-            //}
+            SqlDataAdapter sda = new SqlDataAdapter("select od.Id as Id, CodeOrder,od.MaNV as MaNV,CreateDated,Total,Note,Name from OrderImport od left join Staff st on od.MaNV = st.MaNV", con);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            dgvPhong.Rows.Clear();
+            foreach (DataRow dr in dt.Rows)
+            {
+                int n = dgvPhong.Rows.Add();
+                dgvPhong.Rows[n].Cells[0].Value = dr["Id"].ToString();
+                dgvPhong.Rows[n].Cells[1].Value = dr["CodeOrder"].ToString();
+                dgvPhong.Rows[n].Cells[2].Value = dr["MaNV"].ToString();
+                dgvPhong.Rows[n].Cells[3].Value = dr["Name"].ToString();
+                dgvPhong.Rows[n].Cells[4].Value = dr["CreateDated"].ToString();
+                dgvPhong.Rows[n].Cells[5].Value = dr["Total"].ToString();
+                dgvPhong.Rows[n].Cells[6].Value = dr["Note"].ToString();
+            }
         }
         
         public PhieuModel GetValue()
@@ -102,11 +102,8 @@ namespace BaiTap
         private void btnThem_Click(object sender, EventArgs e)
         {
             try
-            {
-                con.Open();
-
-                var model = GetValue();
-
+            {                
+                var model = GetValue();               
                 if (ExistMaKH(model.MaPhieu))
                 {
                     MessageBox.Show("Mã phiếu " + model.MaPhieu + " đã tồn tại vui lòng nhập mã khác");
@@ -114,7 +111,7 @@ namespace BaiTap
                 else
                 {
                     model.NgayNhap = DateTime.Now;
-                    var qry = "insert into OrderImport values('" + model.MaPhieu + "','" + model.UserName + "','" + model.NgayNhap + "'," + model.Total + ",'N" + model.Note + "')";
+                    var qry = "insert into OrderImport(CodeOrder,MaNV,CreateDated,Total,Note) values('" + model.MaPhieu + "','" + model.UserName + "','" + model.NgayNhap + "'," + model.Total + ",'N" + model.Note + "')";
                     SqlCommand sc = new SqlCommand(qry, con);
                     if (con.State == ConnectionState.Closed)
                     {
@@ -200,7 +197,7 @@ namespace BaiTap
             {
                 con.Open();
                 var model = GetValue();
-                String qry = "update OrderImport set Total=" + model.Total + " where CodeOrder='" + model.MaPhieu + "'";
+                String qry = "update OrderImport set Total=" + model.Total + ",Note=N'"+model.Note+"' where CodeOrder='" + model.MaPhieu + "'";
                 SqlCommand sc = new SqlCommand(qry, con);
                 int i = sc.ExecuteNonQuery();
                 if (i >= 1)
@@ -279,24 +276,12 @@ namespace BaiTap
                 {
                     txtTongSanPham.Text = dgvPhong.Rows[cell.RowIndex].Cells["Total"].Value.ToString();
                 }
-                //if (dgvPhong.Rows[cell.RowIndex].Cells[3].Value != null)
-                //{
-                //    cmbNhanVien.SelectedValue = dgvPhong.Rows[cell.RowIndex].Cells[3].Value.ToString();
-                //}
-                //if (textCmb == "Chua cho thue")
-                //{
-                //    cmbTinhTrang.SelectedValue = 
-                //}
+                if (dgvPhong.Rows[cell.RowIndex].Cells["Note"].Value != null)
+                {
+                    txtNote.Text = dgvPhong.Rows[cell.RowIndex].Cells["Note"].Value.ToString();
+                }
                 cmbNhanVien.Show();
-                //cmbMaPhong.SelectedValue = dgvPhong.Rows[cell.RowIndex].Cells[4].Value.ToString();
-                //cmbMaPhong.Show();
-
-                //dgvPhong.Rows[n].Cells[0].Value = dr["CodeOrder"].ToString();
-                //dgvPhong.Rows[n].Cells[1].Value = dr["MaNV"].ToString();
-                //dgvPhong.Rows[n].Cells[2].Value = dr["Name"].ToString();
-                //dgvPhong.Rows[n].Cells[3].Value = dr["CreateDated"].ToString();
-                //dgvPhong.Rows[n].Cells[4].Value = dr["Total"].ToString();
             }
-        }
+        }       
     }
 }

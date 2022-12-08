@@ -16,7 +16,7 @@ namespace BaiTap
     public partial class OrderExportDetail : Form
     {
         private int OrderExportDetailId = 0;
-        SqlConnection con = new SqlConnection("Data Source=G07VNXDFVLTTI15;Initial Catalog=MyPham;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=DESKTOP-DDVHBI0;Initial Catalog=MyPham;Integrated Security=True");
         public OrderExportDetail()
         {
             InitializeComponent();
@@ -27,12 +27,12 @@ namespace BaiTap
 
         }
 
-        private void Phong_Load(object sender, EventArgs e)
-        {
-            LoadFormcustom();
-            LoadDataPhieuNhapCombobox();
-            LoadDataSanPhamCombobox();
-        }
+        //private void Phong_Load(object sender, EventArgs e)
+        //{
+        //    LoadFormcustom();
+        //    LoadDataPhieuNhapCombobox();
+        //    LoadDataSanPhamCombobox();
+        //}
         public void LoadDataPhieuNhapCombobox()
         {
             string query = "select Id, Code from OrderExport";
@@ -430,6 +430,13 @@ namespace BaiTap
                     txtNote.Text = dgvOrderExportDetail.Rows[cell.RowIndex].Cells["Note"].Value.ToString();
                 }
             }
+        }
+
+        private void OrderExportDetail_Load(object sender, EventArgs e)
+        {
+            LoadFormcustom();
+            LoadDataPhieuNhapCombobox();
+            LoadDataSanPhamCombobox();
         }
     }
 }

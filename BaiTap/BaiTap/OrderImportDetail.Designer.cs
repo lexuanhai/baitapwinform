@@ -46,20 +46,22 @@ namespace BaiTap
             this.btnSua = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.dgvOrderDetailImport = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CodeOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MaSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtNamSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtNgayNhap = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtTongGia = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Note = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvOrdersDetailImport = new System.Windows.Forms.DataGridView();
+            this.tdId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tdCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tdProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tdTenSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tdCreated = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tdQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tdPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tdTotalPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tdNote = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnInHoaDonNhap = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvOrderDetailImport)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOrdersDetailImport)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -74,11 +76,9 @@ namespace BaiTap
             this.groupBox1.Controls.Add(this.txtPrice);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtNote);
-            this.groupBox1.Location = new System.Drawing.Point(69, 118);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Location = new System.Drawing.Point(52, 96);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(847, 155);
+            this.groupBox1.Size = new System.Drawing.Size(635, 126);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin phiếu nhập";
@@ -87,28 +87,25 @@ namespace BaiTap
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(598, 46);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(448, 37);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 16);
+            this.label1.Size = new System.Drawing.Size(49, 13);
             this.label1.TabIndex = 21;
             this.label1.Text = "Số lượng";
             // 
             // txtSoLuong
             // 
-            this.txtSoLuong.Location = new System.Drawing.Point(682, 44);
-            this.txtSoLuong.Margin = new System.Windows.Forms.Padding(4);
+            this.txtSoLuong.Location = new System.Drawing.Point(512, 36);
             this.txtSoLuong.Name = "txtSoLuong";
-            this.txtSoLuong.Size = new System.Drawing.Size(155, 22);
+            this.txtSoLuong.Size = new System.Drawing.Size(117, 20);
             this.txtSoLuong.TabIndex = 20;
             // 
             // cmbSanPham1
             // 
             this.cmbSanPham1.AutoSize = true;
-            this.cmbSanPham1.Location = new System.Drawing.Point(36, 101);
-            this.cmbSanPham1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.cmbSanPham1.Location = new System.Drawing.Point(27, 82);
             this.cmbSanPham1.Name = "cmbSanPham1";
-            this.cmbSanPham1.Size = new System.Drawing.Size(91, 16);
+            this.cmbSanPham1.Size = new System.Drawing.Size(74, 13);
             this.cmbSanPham1.TabIndex = 19;
             this.cmbSanPham1.Text = "Mã Sản Phẩm";
             // 
@@ -118,19 +115,17 @@ namespace BaiTap
             this.cmbSanPham.Items.AddRange(new object[] {
             "Trống",
             "Có Khách"});
-            this.cmbSanPham.Location = new System.Drawing.Point(143, 97);
-            this.cmbSanPham.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbSanPham.Location = new System.Drawing.Point(107, 79);
             this.cmbSanPham.Name = "cmbSanPham";
-            this.cmbSanPham.Size = new System.Drawing.Size(155, 24);
+            this.cmbSanPham.Size = new System.Drawing.Size(117, 21);
             this.cmbSanPham.TabIndex = 18;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(40, 48);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(30, 39);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(63, 16);
+            this.label4.Size = new System.Drawing.Size(52, 13);
             this.label4.TabIndex = 17;
             this.label4.Text = "Mã Phiếu";
             // 
@@ -140,66 +135,60 @@ namespace BaiTap
             this.cmbMaPhieuNhap.Items.AddRange(new object[] {
             "Trống",
             "Có Khách"});
-            this.cmbMaPhieuNhap.Location = new System.Drawing.Point(143, 44);
-            this.cmbMaPhieuNhap.Margin = new System.Windows.Forms.Padding(4);
+            this.cmbMaPhieuNhap.Location = new System.Drawing.Point(107, 36);
             this.cmbMaPhieuNhap.Name = "cmbMaPhieuNhap";
-            this.cmbMaPhieuNhap.Size = new System.Drawing.Size(155, 24);
+            this.cmbMaPhieuNhap.Size = new System.Drawing.Size(117, 21);
             this.cmbMaPhieuNhap.TabIndex = 16;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(325, 48);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(244, 39);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 16);
+            this.label3.Size = new System.Drawing.Size(44, 13);
             this.label3.TabIndex = 15;
             this.label3.Text = "Đơn giá";
             // 
             // txtPrice
             // 
-            this.txtPrice.Location = new System.Drawing.Point(414, 46);
-            this.txtPrice.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPrice.Location = new System.Drawing.Point(310, 37);
             this.txtPrice.Name = "txtPrice";
-            this.txtPrice.Size = new System.Drawing.Size(155, 22);
+            this.txtPrice.Size = new System.Drawing.Size(117, 20);
             this.txtPrice.TabIndex = 14;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(321, 102);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(241, 83);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 16);
+            this.label2.Size = new System.Drawing.Size(44, 13);
             this.label2.TabIndex = 13;
             this.label2.Text = "Ghi chú";
             // 
             // txtNote
             // 
-            this.txtNote.Location = new System.Drawing.Point(414, 97);
-            this.txtNote.Margin = new System.Windows.Forms.Padding(4);
+            this.txtNote.Location = new System.Drawing.Point(310, 79);
             this.txtNote.Name = "txtNote";
-            this.txtNote.Size = new System.Drawing.Size(155, 22);
+            this.txtNote.Size = new System.Drawing.Size(117, 20);
             this.txtNote.TabIndex = 12;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnInHoaDonNhap);
             this.panel1.Controls.Add(this.btnThoat);
             this.panel1.Controls.Add(this.btnXoa);
             this.panel1.Controls.Add(this.btnSua);
             this.panel1.Controls.Add(this.btnThem);
-            this.panel1.Location = new System.Drawing.Point(69, 326);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4);
+            this.panel1.Location = new System.Drawing.Point(52, 245);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(847, 70);
+            this.panel1.Size = new System.Drawing.Size(635, 57);
             this.panel1.TabIndex = 1;
             // 
             // btnThoat
             // 
-            this.btnThoat.Location = new System.Drawing.Point(641, 10);
-            this.btnThoat.Margin = new System.Windows.Forms.Padding(4);
+            this.btnThoat.Location = new System.Drawing.Point(522, 8);
             this.btnThoat.Name = "btnThoat";
-            this.btnThoat.Size = new System.Drawing.Size(100, 52);
+            this.btnThoat.Size = new System.Drawing.Size(75, 42);
             this.btnThoat.TabIndex = 2;
             this.btnThoat.Text = "Thoát";
             this.btnThoat.UseVisualStyleBackColor = true;
@@ -207,10 +196,9 @@ namespace BaiTap
             // 
             // btnXoa
             // 
-            this.btnXoa.Location = new System.Drawing.Point(475, 10);
-            this.btnXoa.Margin = new System.Windows.Forms.Padding(4);
+            this.btnXoa.Location = new System.Drawing.Point(281, 8);
             this.btnXoa.Name = "btnXoa";
-            this.btnXoa.Size = new System.Drawing.Size(100, 52);
+            this.btnXoa.Size = new System.Drawing.Size(75, 42);
             this.btnXoa.TabIndex = 2;
             this.btnXoa.Text = "Xóa";
             this.btnXoa.UseVisualStyleBackColor = true;
@@ -218,10 +206,9 @@ namespace BaiTap
             // 
             // btnSua
             // 
-            this.btnSua.Location = new System.Drawing.Point(280, 10);
-            this.btnSua.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSua.Location = new System.Drawing.Point(159, 8);
             this.btnSua.Name = "btnSua";
-            this.btnSua.Size = new System.Drawing.Size(100, 52);
+            this.btnSua.Size = new System.Drawing.Size(75, 42);
             this.btnSua.TabIndex = 1;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = true;
@@ -229,10 +216,9 @@ namespace BaiTap
             // 
             // btnThem
             // 
-            this.btnThem.Location = new System.Drawing.Point(101, 10);
-            this.btnThem.Margin = new System.Windows.Forms.Padding(4);
+            this.btnThem.Location = new System.Drawing.Point(35, 8);
             this.btnThem.Name = "btnThem";
-            this.btnThem.Size = new System.Drawing.Size(100, 52);
+            this.btnThem.Size = new System.Drawing.Size(75, 42);
             this.btnThem.TabIndex = 0;
             this.btnThem.Text = "Nhập";
             this.btnThem.UseVisualStyleBackColor = true;
@@ -240,123 +226,117 @@ namespace BaiTap
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.dgvOrderDetailImport);
-            this.groupBox2.Location = new System.Drawing.Point(33, 440);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Controls.Add(this.dgvOrdersDetailImport);
+            this.groupBox2.Location = new System.Drawing.Point(25, 323);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(939, 220);
+            this.groupBox2.Size = new System.Drawing.Size(704, 230);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Danh sách phiếu nhập";
-            // 
-            // dgvOrderDetailImport
-            // 
-            this.dgvOrderDetailImport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvOrderDetailImport.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Id,
-            this.CodeOrder,
-            this.MaSanPham,
-            this.txtNamSanPham,
-            this.txtNgayNhap,
-            this.Total,
-            this.txtTongGia,
-            this.Note});
-            this.dgvOrderDetailImport.Location = new System.Drawing.Point(8, 43);
-            this.dgvOrderDetailImport.Margin = new System.Windows.Forms.Padding(4);
-            this.dgvOrderDetailImport.Name = "dgvOrderDetailImport";
-            this.dgvOrderDetailImport.RowHeadersWidth = 51;
-            this.dgvOrderDetailImport.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvOrderDetailImport.Size = new System.Drawing.Size(923, 138);
-            this.dgvOrderDetailImport.TabIndex = 19;
-            this.dgvOrderDetailImport.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOrderDetailImport_CellClick);
-            this.dgvOrderDetailImport.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dgvPhong_MouseClick);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(441, 46);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(331, 37);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(258, 29);
+            this.label5.Size = new System.Drawing.Size(206, 25);
             this.label5.TabIndex = 12;
             this.label5.Text = "Chi Tiết Phiếu Nhập";
             // 
-            // Id
+            // dgvOrdersDetailImport
             // 
-            this.Id.HeaderText = "Id";
-            this.Id.MinimumWidth = 6;
-            this.Id.Name = "Id";
-            this.Id.Width = 50;
+            this.dgvOrdersDetailImport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvOrdersDetailImport.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.tdId,
+            this.tdCode,
+            this.tdProductId,
+            this.tdTenSanPham,
+            this.tdCreated,
+            this.tdQuantity,
+            this.tdPrice,
+            this.tdTotalPrice,
+            this.tdNote});
+            this.dgvOrdersDetailImport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvOrdersDetailImport.Location = new System.Drawing.Point(3, 16);
+            this.dgvOrdersDetailImport.Name = "dgvOrdersDetailImport";
+            this.dgvOrdersDetailImport.Size = new System.Drawing.Size(698, 211);
+            this.dgvOrdersDetailImport.TabIndex = 0;
+            this.dgvOrdersDetailImport.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOrdersDetailImport_CellClick);
             // 
-            // CodeOrder
+            // tdId
             // 
-            this.CodeOrder.HeaderText = "Mã Phiếu";
-            this.CodeOrder.MinimumWidth = 6;
-            this.CodeOrder.Name = "CodeOrder";
-            this.CodeOrder.Width = 125;
+            this.tdId.HeaderText = "Id";
+            this.tdId.Name = "tdId";
+            this.tdId.Width = 50;
             // 
-            // MaSanPham
+            // tdCode
             // 
-            this.MaSanPham.HeaderText = "Mã sản phẩm";
-            this.MaSanPham.MinimumWidth = 6;
-            this.MaSanPham.Name = "MaSanPham";
-            this.MaSanPham.Width = 125;
+            this.tdCode.HeaderText = "Mã Phiếu";
+            this.tdCode.Name = "tdCode";
             // 
-            // txtNamSanPham
+            // tdProductId
             // 
-            this.txtNamSanPham.HeaderText = "Tên sản phẩm";
-            this.txtNamSanPham.MinimumWidth = 6;
-            this.txtNamSanPham.Name = "txtNamSanPham";
-            this.txtNamSanPham.Width = 125;
+            this.tdProductId.HeaderText = "Mã sản phẩm";
+            this.tdProductId.Name = "tdProductId";
             // 
-            // txtNgayNhap
+            // tdTenSanPham
             // 
-            this.txtNgayNhap.HeaderText = "Ngày nhập";
-            this.txtNgayNhap.MinimumWidth = 6;
-            this.txtNgayNhap.Name = "txtNgayNhap";
-            this.txtNgayNhap.Width = 125;
+            this.tdTenSanPham.HeaderText = "Tên sản phẩm";
+            this.tdTenSanPham.Name = "tdTenSanPham";
             // 
-            // Total
+            // tdCreated
             // 
-            this.Total.HeaderText = "Số lượng nhập";
-            this.Total.MinimumWidth = 6;
-            this.Total.Name = "Total";
-            this.Total.Width = 125;
+            this.tdCreated.HeaderText = "Ngày nhập";
+            this.tdCreated.Name = "tdCreated";
             // 
-            // txtTongGia
+            // tdQuantity
             // 
-            this.txtTongGia.HeaderText = "Tổng giá";
-            this.txtTongGia.MinimumWidth = 6;
-            this.txtTongGia.Name = "txtTongGia";
-            this.txtTongGia.Width = 125;
+            this.tdQuantity.HeaderText = "Số lượng nhập";
+            this.tdQuantity.Name = "tdQuantity";
             // 
-            // Note
+            // tdPrice
             // 
-            this.Note.HeaderText = "Ghi chú";
-            this.Note.MinimumWidth = 6;
-            this.Note.Name = "Note";
-            this.Note.Width = 125;
+            this.tdPrice.HeaderText = "Đơn giá";
+            this.tdPrice.Name = "tdPrice";
+            // 
+            // tdTotalPrice
+            // 
+            this.tdTotalPrice.HeaderText = "Tổng giá";
+            this.tdTotalPrice.Name = "tdTotalPrice";
+            // 
+            // tdNote
+            // 
+            this.tdNote.HeaderText = "Ghi chú";
+            this.tdNote.Name = "tdNote";
+            // 
+            // btnInHoaDonNhap
+            // 
+            this.btnInHoaDonNhap.Location = new System.Drawing.Point(399, 8);
+            this.btnInHoaDonNhap.Name = "btnInHoaDonNhap";
+            this.btnInHoaDonNhap.Size = new System.Drawing.Size(84, 42);
+            this.btnInHoaDonNhap.TabIndex = 3;
+            this.btnInHoaDonNhap.Text = "In hóa đơn";
+            this.btnInHoaDonNhap.UseVisualStyleBackColor = true;
+            this.btnInHoaDonNhap.Click += new System.EventHandler(this.btnInHoaDonNhap_Click);
             // 
             // OrderImportDetail
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1047, 821);
+            this.ClientSize = new System.Drawing.Size(785, 667);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "OrderImportDetail";
             this.Text = "Phiếu nhập";
-            this.Load += new System.EventHandler(this.Phong_Load);
+            this.Load += new System.EventHandler(this.OrderImportDetail_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvOrderDetailImport)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvOrdersDetailImport)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -377,20 +357,22 @@ namespace BaiTap
         private System.Windows.Forms.Button btnSua;
         private System.Windows.Forms.Button btnThem;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.DataGridView dgvOrderDetailImport;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label cmbSanPham1;
         private System.Windows.Forms.ComboBox cmbSanPham;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtSoLuong;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CodeOrder;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MaSanPham;
-        private System.Windows.Forms.DataGridViewTextBoxColumn txtNamSanPham;
-        private System.Windows.Forms.DataGridViewTextBoxColumn txtNgayNhap;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
-        private System.Windows.Forms.DataGridViewTextBoxColumn txtTongGia;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Note;
+        private System.Windows.Forms.DataGridView dgvOrdersDetailImport;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tdId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tdCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tdProductId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tdTenSanPham;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tdCreated;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tdQuantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tdPrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tdTotalPrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tdNote;
+        private System.Windows.Forms.Button btnInHoaDonNhap;
         //private System.Windows.Forms.DataGridViewTextBoxColumn Name;
         //private System.Windows.Forms.DataGridViewTextBoxColumn Address;
         //private System.Windows.Forms.DataGridViewTextBoxColumn Phone;

@@ -18,6 +18,9 @@ namespace BaiTap
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Phong());
             //Application.Run(new QuanLyKhachSan());
+
+            //Application.Run(new TestForm());
+
             Application.Run(new ChuongTrinhQuanLiKhachSan());
         }
     }

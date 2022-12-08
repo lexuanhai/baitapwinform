@@ -15,7 +15,7 @@ namespace BaiTap
 {
     public partial class OrderExport : Form
     {
-        SqlConnection con = new SqlConnection("Data Source=G07VNXDFVLTTI15;Initial Catalog=MyPham;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=DESKTOP-DDVHBI0;Initial Catalog=MyPham;Integrated Security=True");
         private int OrderExportId = 0;
         public OrderExport()
         {

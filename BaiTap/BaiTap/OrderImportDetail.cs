@@ -466,5 +466,10 @@ namespace BaiTap
             }
             
         }
+
+        private void pdInHoaDonNhap_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+
+        }
     }
 }

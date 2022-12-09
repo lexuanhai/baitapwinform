@@ -16,7 +16,7 @@ namespace BaiTap
     public partial class OrderImportDetail : Form
     {
         private int OrderDetailImportId = 0;
-        SqlConnection con = new SqlConnection("Data Source=DESKTOP-DDVHBI0;Initial Catalog=MyPham;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=G07VNXDFVLTTI15;Initial Catalog=MyPham;Integrated Security=True");
         public OrderImportDetail()
         {
             InitializeComponent();
@@ -177,7 +177,7 @@ namespace BaiTap
             var model = new OrderImportDetailModel();
             model.OrderImportId = Convert.ToInt32(cmbMaPhieuNhap.SelectedValue);
             model.ProductId = Convert.ToInt32(cmbSanPham.SelectedValue);
-            model.Price = Convert.ToDecimal(txtPrice.Text);
+            model.Price = (!string.IsNullOrEmpty(txtPrice.Text) ? Convert.ToDecimal(txtPrice.Text):0);
             model.Total = Convert.ToInt32(txtSoLuong.Text);
             model.Note = txtNote.Text;
             return model;

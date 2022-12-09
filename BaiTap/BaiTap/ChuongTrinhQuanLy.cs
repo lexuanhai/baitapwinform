@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace BaiTap
 {
-    public partial class ChuongTrinhQuanLiKhachSan : Form
+    public partial class ChuongTrinhQuanLy : Form
     {
-        public ChuongTrinhQuanLiKhachSan()
+        public ChuongTrinhQuanLy()
         {
             InitializeComponent();
             LoadIndexForm();
@@ -28,18 +28,18 @@ namespace BaiTap
             Form frm = new Form();
 
 
-            if (tabChuongTrinh.SelectedTab == tabChuongTrinh.TabPages["tabQuanLiPhong"])
+            if (tabChuongTrinh.SelectedTab == tabChuongTrinh.TabPages["tabQuanLiPhieuNhap"])
             {
                 frm = new OrderImport();
                 FormatForm(frm);
-                tabChuongTrinh.TabPages["tabQuanLiPhong"].Controls.Add(frm);
+                tabChuongTrinh.TabPages["tabQuanLiPhieuNhap"].Controls.Add(frm);
             }
 
-            if (tabChuongTrinh.SelectedTab == tabChuongTrinh.TabPages["tabQuanLyKhachHang"])
+            if (tabChuongTrinh.SelectedTab == tabChuongTrinh.TabPages["tabQuanLiChiTietPhieuNhap"])
             {
                 frm = new OrderImportDetail();
                 FormatForm(frm);
-                tabChuongTrinh.TabPages["tabQuanLyKhachHang"].Controls.Add(frm);
+                tabChuongTrinh.TabPages["tabQuanLiChiTietPhieuNhap"].Controls.Add(frm);
             }
             if (tabChuongTrinh.SelectedTab == tabChuongTrinh.TabPages["tabPhieuXuat"])
             {
@@ -54,12 +54,11 @@ namespace BaiTap
                 tabChuongTrinh.TabPages["tabChiTietPhieuXuat"].Controls.Add(frm);
             }
 
-
-            if (tabChuongTrinh.SelectedTab == tabChuongTrinh.TabPages["tabThanhToan"])
+            if (tabChuongTrinh.SelectedTab == tabChuongTrinh.TabPages["tabThongke"])
             {
-                frm = new Thanh_Toan();
+                frm = new ThongKe();
                 FormatForm(frm);
-                tabChuongTrinh.TabPages["tabThanhToan"].Controls.Add(frm);
+                tabChuongTrinh.TabPages["tabThongke"].Controls.Add(frm);
             }
 
 

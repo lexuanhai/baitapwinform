@@ -39,6 +39,7 @@ public class OrderExportDetailPDFModel
     public string TypePayment { get; set; }
     public string Status { get; set; }
     public DateTime? CreatedDate { get; set; }
+    public string CreatedDateStr { get; set; }
     public string Note { get; set; }
     // thông tin sản phẩm
     public List<ProductModel> Products { get; set; }

@@ -15,7 +15,7 @@ namespace BaiTap
 {
     public partial class OrderExport : Form
     {
-        SqlConnection con = new SqlConnection("Data Source=DESKTOP-DDVHBI0;Initial Catalog=MyPham;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=G07VNXDFVLTTI15;Initial Catalog=MyPham;Integrated Security=True");
         private int OrderExportId = 0;
         public OrderExport()
         {
@@ -29,8 +29,8 @@ namespace BaiTap
       
         private void Phong_Load(object sender, EventArgs e)
         {
-            LoadFormcustom();
-            LoadDataCombobox();
+            //LoadFormcustom();
+            //LoadDataCombobox();
             //btnSua.Enabled = false;
             //btnXoa.Enabled = false;
 
@@ -79,7 +79,7 @@ namespace BaiTap
                 dgvPhieuXuat.Rows[n].Cells[5].Value = dr["Phone"].ToString();
                 dgvPhieuXuat.Rows[n].Cells[6].Value = dr["Email"].ToString();
                 dgvPhieuXuat.Rows[n].Cells[7].Value = dr["Address"].ToString();
-                dgvPhieuXuat.Rows[n].Cells[8].Value = dr["CreatedDate"].ToString();
+                dgvPhieuXuat.Rows[n].Cells[8].Value = Convert.ToDateTime(dr["CreatedDate"]).ToString("dd/MM/yyyy");
                 dgvPhieuXuat.Rows[n].Cells[9].Value = dr["TypePayment"].ToString();
                 dgvPhieuXuat.Rows[n].Cells[10].Value = dr["Status"].ToString();
 
@@ -101,6 +101,7 @@ namespace BaiTap
             model.Address = txtAddress.Text;           
             model.TypePayment = cmbPuongThucThanhToan.SelectedItem.ToString();
             model.Status = cmbTinhTrang.SelectedItem.ToString();
+            model.CreatedDate = datetimpiceNgayNhap.Value;
             return model;
         }
         public void SetValue(OrderExportModel model)
@@ -145,7 +146,7 @@ namespace BaiTap
                 {
                     //model.NgayNhap = DateTime.Now;
                     //var qry = "insert into OrderImport values('" + model.MaPhieu + "','" + model.UserName + "','" + model.NgayNhap + "'," + model.Total + ",'N" + model.Note + "')";
-                    var qry = "Insert into OrderExport(Code, UserName, AgentName, Phone, Email, Address, TypePayment, Status) values('" + model.Code + "','" + model.UserName + "','" + model.AgentName + "','" + model.Phone + "','" + model.Email + "',N'" + model.Address + "',N'" + model.TypePayment + "',N'" + model.Status + "')";
+                    var qry = "Insert into OrderExport(Code, UserName, AgentName, Phone, Email, Address, TypePayment, Status,CreatedDate) values('" + model.Code + "','" + model.UserName + "','" + model.AgentName + "','" + model.Phone + "','" + model.Email + "',N'" + model.Address + "',N'" + model.TypePayment + "',N'" + model.Status + "','" + model.CreatedDate + "')";
                         //"values('" + model.Code + "','"+model.UserName+"','"+model.AgentName+"','"+model.Phone+"','"+model.Email+"',N'"+model.Address+"',N'"+model.TypePayment+"',N'"+model.Status+"')";
                     SqlCommand sc = new SqlCommand(qry, con);
                     if (con.State == ConnectionState.Closed)
@@ -233,7 +234,7 @@ namespace BaiTap
                 con.Open();
                 var model = GetValue();
                 String qry = "Update OrderExport set " +
-                    "CreatedDate =''," +
+                    "CreatedDate ='"+ model.CreatedDate + "'," +
                     "AgentName =N'"+model.AgentName+"', " +
                     "Phone ='"+model.Phone+"', " +
                     "Email ='"+model.Email+"', " +
@@ -302,7 +303,12 @@ namespace BaiTap
                 Application.Exit();
             }
         }
-
+        public  string ConvertDateTime(string date)
+        {
+            string[] elements = date.Split('/');
+            string dt = string.Format("{0}/{1}/{2}", elements[2], elements[1], elements[0]);
+            return dt;
+        }
         private void dgvPhieuXuat_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             foreach (DataGridViewCell cell in dgvPhieuXuat.SelectedCells)
@@ -342,10 +348,10 @@ namespace BaiTap
                 {
                     txtAddress.Text = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdDiaChi"].Value.ToString();                   
                 }
-                //if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdNgayXuat"].Value != null)
-                //{
-                //    cmbTinhTrang.SelectedValue = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdNgayXuat"].Value.ToString();
-                //}
+                if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdNgayXuat"].Value != null)
+                {
+                    datetimpiceNgayNhap.Value = Convert.ToDateTime(ConvertDateTime(dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdNgayXuat"].Value.ToString()));
+                }
                 if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdPhuongThucThanhToan"].Value != null)
                 {
                     cmbPuongThucThanhToan.SelectedItem = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdPhuongThucThanhToan"].Value.ToString();
@@ -355,6 +361,12 @@ namespace BaiTap
                     cmbTinhTrang.SelectedItem = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdTinhTrang"].Value.ToString();
                 }
             }
+        }
+
+        private void OrderExport_Load(object sender, EventArgs e)
+        {
+            LoadFormcustom();
+            LoadDataCombobox();
         }
 
         //private void dgvPhong_CellClick(object sender, DataGridViewCellEventArgs e)

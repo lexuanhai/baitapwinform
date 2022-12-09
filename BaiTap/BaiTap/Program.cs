@@ -21,7 +21,7 @@ namespace BaiTap
 
             //Application.Run(new TestForm());
 
-            Application.Run(new ChuongTrinhQuanLiKhachSan());
+            Application.Run(new ChuongTrinhQuanLy());
         }
     }
 }

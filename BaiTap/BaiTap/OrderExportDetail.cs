@@ -16,7 +16,7 @@ namespace BaiTap
     public partial class OrderExportDetail : Form
     {
         private int OrderExportDetailId = 0;
-        SqlConnection con = new SqlConnection("Data Source=DESKTOP-DDVHBI0;Initial Catalog=MyPham;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=G07VNXDFVLTTI15;Initial Catalog=MyPham;Integrated Security=True");
         public OrderExportDetail()
         {
             InitializeComponent();
@@ -65,28 +65,41 @@ namespace BaiTap
         }
         public void LoadFormcustom()
         {
-            SqlDataAdapter sda = new SqlDataAdapter("SELECT oid.Id as OrderExportId, oi.Code As Code,oid.Status as [Status] ,UserName, oi.AgentName, pr.id as ProductId,pr.price, pr.name as ProductName, oid.Quantity as OrderDetailExportQuantity, oid.TotalPrice as OrderDetailExportTotalPrice, oid.Note as OrderDetailExportNote FROM OrderExport oi inner join OrderExportDetail oid on oi.Id = oid.OrderExportId inner join Products pr on oid.ProductId = pr.id", con);
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT oid.Id as OrderExportId, " +
+                "oi.Code As Code," +
+                "oid.Status as [Status] ," +
+                "UserName, oi.AgentName," +
+                " pr.id as ProductId," +
+                "pr.price, " +
+                "pr.name as ProductName," +
+                " oid.Quantity as OrderDetailExportQuantity," +
+                " oid.TotalPrice as OrderDetailExportTotalPrice, " +
+                "oid.Note as OrderDetailExportNote" +
+                " FROM OrderExport oi " +
+                "inner join OrderExportDetail oid on oi.Id = oid.OrderExportId " +
+                " inner join Products pr on oid.ProductId = pr.id", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             dgvOrderExportDetail.Rows.Clear();
             foreach (DataRow dr in dt.Rows)
             {
                 int n = dgvOrderExportDetail.Rows.Add();
-                dgvOrderExportDetail.Rows[n].Cells[0].Value = dr["Id"].ToString();
+                dgvOrderExportDetail.Rows[n].Cells[0].Value = dr["OrderExportId"].ToString();
                 dgvOrderExportDetail.Rows[n].Cells[1].Value = dr["Code"].ToString();
                 dgvOrderExportDetail.Rows[n].Cells[2].Value = dr["ProductId"].ToString();
                 dgvOrderExportDetail.Rows[n].Cells[3].Value = dr["ProductName"].ToString();
                 dgvOrderExportDetail.Rows[n].Cells[4].Value = dr["AgentName"].ToString();
                 dgvOrderExportDetail.Rows[n].Cells[5].Value = dr["price"].ToString();
                 dgvOrderExportDetail.Rows[n].Cells[6].Value = dr["OrderDetailExportQuantity"].ToString();
-                dgvOrderExportDetail.Rows[n].Cells[7].Value = dr["OrderDetailExportNote"].ToString();
-                dgvOrderExportDetail.Rows[n].Cells[8].Value = dr["Status"].ToString();
+                dgvOrderExportDetail.Rows[n].Cells[7].Value = dr["OrderDetailExportTotalPrice"].ToString();
+                dgvOrderExportDetail.Rows[n].Cells[8].Value = dr["OrderDetailExportNote"].ToString();
+                dgvOrderExportDetail.Rows[n].Cells[9].Value = dr["Status"].ToString();
                 //dgvOrderExportDetail.Rows[n].Cells[7].Value = dr["OrderDetailImportNote"].ToString();
 
             }
         }
 
-        public PhieuModel GetOrderImportByCode(string codeOrder)
+        public OrderExportModel GetOrderExportByCode(string codeOrder)
         {
             if (con.State == ConnectionState.Closed)
             {
@@ -95,11 +108,10 @@ namespace BaiTap
             SqlDataAdapter sda = new SqlDataAdapter("select Id,Code from OrderExport where Code = '" + codeOrder + "'", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
-            dgvOrderExportDetail.Rows.Clear();
-            var phieuModel = new PhieuModel();
+            var phieuModel = new OrderExportModel();
             foreach (DataRow dr in dt.Rows)
             {
-                phieuModel.MaPhieu = dr["Code"].ToString();
+                phieuModel.Code = dr["Code"].ToString();
                 phieuModel.Id = Convert.ToInt32(dr["Id"].ToString());
             }
             return phieuModel;
@@ -113,7 +125,6 @@ namespace BaiTap
             SqlDataAdapter sda = new SqlDataAdapter("select Id,Code,AgentName from OrderExport where Id = '" + orderExportId + "'", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
-            dgvOrderExportDetail.Rows.Clear();
             var phieuModel = new OrderExportModel();
             foreach (DataRow dr in dt.Rows)
             {
@@ -130,18 +141,17 @@ namespace BaiTap
             {
                 con.Open();
             }
-            SqlDataAdapter sda = new SqlDataAdapter("select Id,name,priceCustom from Products where Id = '" + productId + "'", con);
+            SqlDataAdapter sda = new SqlDataAdapter("select Id,name,price from Products where Id = '" + productId + "'", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
-            dgvOrderExportDetail.Rows.Clear();
             var product = new ProductModel();
             foreach (DataRow dr in dt.Rows)
             {
                 product.Id = Convert.ToInt32(dr["Id"]);
                 product.Name = dr["name"].ToString();
-                if (dr["priceCustom"] != null)
+                if (dr["price"] != null)
                 {
-                    product.Price = Convert.ToDecimal(dr["priceCustom"]);
+                    product.Price = Convert.ToDecimal(dr["price"]);
                 }
             }
             return product;
@@ -154,7 +164,7 @@ namespace BaiTap
             model.ProductId = Convert.ToInt32(cmbSanPham.SelectedValue);            
             model.Quantity = Convert.ToInt32(txtSoLuong.Text);
             model.Note = txtNote.Text;
-            model.Status = cmbTinhTrang.SelectedItem.ToString();
+            model.Status = (cmbTinhTrang.SelectedItem != null ? cmbTinhTrang.SelectedItem.ToString() : "");
             return model;
         }
         public void SetValue(OrderExportDetailModel model)
@@ -210,7 +220,7 @@ namespace BaiTap
                     }
                    
                     var qry = "insert into OrderExportDetail(ProductId,OrderExportId,Quantity,TotalPrice,Status,Note)" +
-                    "values(" + model.ProductId + "," + model.OrderExportId + "," + model.Quantity + "," + model.TotalPrice + ",'N" + model.Status + "','N" + model.Note + "')";
+                    "values(" + model.ProductId + "," + model.OrderExportId + "," + model.Quantity + "," + model.TotalPrice + ",N'" + model.Status + "',N'" + model.Note + "')";
                     SqlCommand sc = new SqlCommand(qry, con);
                     if (con.State == ConnectionState.Closed)
                     {
@@ -401,11 +411,12 @@ namespace BaiTap
                 //cell.RowIndex
                 if (dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdId"].Value != null)
                 {
-                    OrderExportDetailId = Convert.ToInt32(dgvOrderExportDetail.Rows[cell.RowIndex].Cells["Id"].Value.ToString());
+                    OrderExportDetailId = Convert.ToInt32(dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdId"].Value.ToString());
                 }
                 if (dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdCode"].Value != null)
                 {
-                    cmbMaPhieu.SelectedValue = dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdCode"].Value.ToString();
+                    var orderImport = GetOrderExportByCode(dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdCode"].Value.ToString());
+                    cmbMaPhieu.SelectedValue = orderImport.Id;
                 }
 
                 if (dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdMaSanPham"].Value != null)
@@ -425,9 +436,9 @@ namespace BaiTap
                 {
                     cmbTinhTrang.SelectedItem = dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdTrangThai"].Value.ToString();
                 }
-                if (dgvOrderExportDetail.Rows[cell.RowIndex].Cells["Note"].Value != null)
+                if (dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdNote"].Value != null)
                 {
-                    txtNote.Text = dgvOrderExportDetail.Rows[cell.RowIndex].Cells["Note"].Value.ToString();
+                    txtNote.Text = dgvOrderExportDetail.Rows[cell.RowIndex].Cells["tdNote"].Value.ToString();
                 }
             }
         }
@@ -439,11 +450,11 @@ namespace BaiTap
             LoadDataSanPhamCombobox();
         }
 
-        public OrderImportDetailExportModel GetDetailOrderDetailProduct(string code)
+        public OrderExportDetailPDFModel GetDetailOrderDetailProduct(string code)
         {
             if (!string.IsNullOrEmpty(code))
             {
-                var orderImportDetailExportModel = new OrderImportDetailExportModel();
+                var orderExportDetailPDFModel = new OrderExportDetailPDFModel();
                 if (con.State == ConnectionState.Closed)
                 {
                     con.Open();
@@ -461,6 +472,7 @@ namespace BaiTap
                     "st.MaNV as MaNV," +
                     "st.Name as Name," +
                     "pr.name as ProductName," +
+                    "pr.price as ProductPrice," +
                     "oid.Quantity as Quantity," +
                     "oid.TotalPrice as TotalPrice," +
                     "oid.Status as StatusOID," +
@@ -475,19 +487,24 @@ namespace BaiTap
 
                 if (dt.Rows != null && dt.Rows.Count > 0)
                 {
-                    orderImportDetailExportModel.CodeOrder = Convert.ToString(dt.Rows[0]["CodeOrder"]);
-                    if (dt.Rows[0]["CreateDated"] != null)
+                    orderExportDetailPDFModel.CodeOrder = Convert.ToString(dt.Rows[0]["Code"]);
+                    if (dt.Rows[0]["CreatedDateOi"] != null)
                     {
-                        orderImportDetailExportModel.CreateDatedStr = Convert.ToDateTime(dt.Rows[0]["CreateDated"]).ToString("dd/MM/yyyy HH:mm");
-                        orderImportDetailExportModel.CreatedDate = Convert.ToDateTime(dt.Rows[0]["CreateDated"]);
+                        orderExportDetailPDFModel.CreatedDateStr = Convert.ToDateTime(dt.Rows[0]["CreatedDateOi"]).ToString("dd/MM/yyyy HH:mm");
+                        orderExportDetailPDFModel.CreatedDate = Convert.ToDateTime(dt.Rows[0]["CreatedDateOi"]);
                     }
-                    orderImportDetailExportModel.MaNV = Convert.ToString(dt.Rows[0]["MaNV"]);
-                    orderImportDetailExportModel.Name = Convert.ToString(dt.Rows[0]["Name"]);
-                    orderImportDetailExportModel.ProductName = Convert.ToString(dt.Rows[0]["ProductName"]);
-                    orderImportDetailExportModel.ProductPrice = Convert.ToString(dt.Rows[0]["ProductPrice"]);
-                    orderImportDetailExportModel.Quantity = Convert.ToInt32(dt.Rows[0]["Quantity"]);
-                    orderImportDetailExportModel.TotalPrice = Convert.ToDecimal(dt.Rows[0]["TotalPrice"]);
-                    orderImportDetailExportModel.Note = Convert.ToString(dt.Rows[0]["Note"]);
+                    orderExportDetailPDFModel.MaNV = Convert.ToString(dt.Rows[0]["MaNV"]);
+                    orderExportDetailPDFModel.Name = Convert.ToString(dt.Rows[0]["Name"]);
+                    // tên đại lý
+                    orderExportDetailPDFModel.AgentName = Convert.ToString(dt.Rows[0]["AgentName"]);
+                    orderExportDetailPDFModel.Phone = Convert.ToString(dt.Rows[0]["Phone"]);
+                    orderExportDetailPDFModel.Email = Convert.ToString(dt.Rows[0]["Email"]);
+                    orderExportDetailPDFModel.Address = Convert.ToString(dt.Rows[0]["Address"]);
+                    // hóa đơn xuất
+                    orderExportDetailPDFModel.TypePayment = Convert.ToString(dt.Rows[0]["TypePayment"]);
+                    orderExportDetailPDFModel.Status  = Convert.ToString(dt.Rows[0]["StatusOi"]);
+
+                    orderExportDetailPDFModel.Note = Convert.ToString(dt.Rows[0]["NoteOID"]);
                     var listProducts = new List<ProductModel>();
                     int i = 0;
                     foreach (DataRow dr in dt.Rows)
@@ -496,13 +513,14 @@ namespace BaiTap
                         product.Name = Convert.ToString(dt.Rows[i]["ProductName"]);
                         product.Price = Convert.ToDecimal(dt.Rows[i]["ProductPrice"]);
                         product.Quantity = Convert.ToInt32(dt.Rows[i]["Quantity"]);
-                        product.Note = Convert.ToString(dt.Rows[i]["OrderDetailNote"]);
+
+                        product.TotalPriceView = Convert.ToDecimal(dt.Rows[i]["TotalPrice"]);
                         listProducts.Add(product);
                         i++;
                     }
-                    orderImportDetailExportModel.Products = listProducts;
+                    orderExportDetailPDFModel.Products = listProducts;
                 }
-                return orderImportDetailExportModel;
+                return orderExportDetailPDFModel;
             }
 
             return null;
@@ -532,10 +550,17 @@ namespace BaiTap
                     y += 40;
                     e.Graphics.DrawString("Tên nhân viên  : " + detailOrderDetailProduct.Name, new Font("Courier New", 13, FontStyle.Regular), Brushes.Black, new Point(x, y));
                     y += 40;
-                    e.Graphics.DrawString("Ghi chú        : " + detailOrderDetailProduct.CodeOrder, new Font("Courier New", 13, FontStyle.Regular), Brushes.Black, new Point(x, y));
+                    e.Graphics.DrawString("Phương thực thanh toán  : " + detailOrderDetailProduct.TypePayment, new Font("Courier New", 13, FontStyle.Regular), Brushes.Black, new Point(x, y));                    
                     y += 40;
-                    e.Graphics.DrawString("Danh sách sản phẩm: ", new Font("Courier New", 14, FontStyle.Bold), Brushes.Black, new Point(x, y));
-
+                    e.Graphics.DrawString("Tình trạng  : " + detailOrderDetailProduct.Status, new Font("Courier New", 13, FontStyle.Regular), Brushes.Black, new Point(x, y));
+                    y += 40;
+                    e.Graphics.DrawString("Thông tin khách hàng : ", new Font("Courier New", 14, FontStyle.Bold), Brushes.Black, new Point(x, y));
+                    y += 40;
+                    e.Graphics.DrawString("Tên khách hàng       : " + detailOrderDetailProduct.AgentName, new Font("Courier New", 13, FontStyle.Regular), Brushes.Black, new Point(x, y));
+                    y += 40;
+                    e.Graphics.DrawString("Số điện thoại        : " + detailOrderDetailProduct.Phone, new Font("Courier New", 13, FontStyle.Regular), Brushes.Black, new Point(x, y));
+                    y += 40;
+                    e.Graphics.DrawString("Địa chỉ              : " + detailOrderDetailProduct.Address, new Font("Courier New", 13, FontStyle.Regular), Brushes.Black, new Point(x, y));
                     y += 30;
 
                     e.Graphics.DrawString("STT", new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(x, y));
@@ -570,7 +595,7 @@ namespace BaiTap
                             ix += 100;
                             e.Graphics.DrawString(item.Quantity.ToString(), new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(ix, y));
                             ix += 130;
-                            e.Graphics.DrawString(total.ToString(), new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(ix, y));
+                            e.Graphics.DrawString(item.TotalPriceView.ToString(), new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(ix, y));
                             ix += 140;
                             e.Graphics.DrawString(item.Note, new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(ix, y));
                         }

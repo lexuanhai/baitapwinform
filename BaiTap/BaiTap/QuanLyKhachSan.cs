@@ -14,7 +14,7 @@ namespace BaiTap
 {
     public partial class QuanLyKhachSan : Form
     {
-        SqlConnection con = new SqlConnection("Data Source=DESKTOP-DDVHBI0;Initial Catalog=OrderDetails;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=G07VNXDFVLTTI15;Initial Catalog=OrderDetails;Integrated Security=True");
         public QuanLyKhachSan()
         {
             InitializeComponent();
@@ -443,6 +443,11 @@ namespace BaiTap
             {
                 this.Close();
             }
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

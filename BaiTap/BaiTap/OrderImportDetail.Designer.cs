@@ -49,6 +49,9 @@ namespace BaiTap
             this.btnThem = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvOrdersDetailImport = new System.Windows.Forms.DataGridView();
+            this.label5 = new System.Windows.Forms.Label();
+            this.pdInHoaDonNhap = new System.Drawing.Printing.PrintDocument();
+            this.prviewInHoaDonNhap = new System.Windows.Forms.PrintPreviewDialog();
             this.tdId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tdCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tdProductId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,9 +61,7 @@ namespace BaiTap
             this.tdPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tdTotalPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tdNote = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label5 = new System.Windows.Forms.Label();
-            this.pdInHoaDonNhap = new System.Drawing.Printing.PrintDocument();
-            this.prviewInHoaDonNhap = new System.Windows.Forms.PrintPreviewDialog();
+            this.btnReset = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -79,7 +80,7 @@ namespace BaiTap
             this.groupBox1.Controls.Add(this.txtPrice);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtNote);
-            this.groupBox1.Location = new System.Drawing.Point(52, 96);
+            this.groupBox1.Location = new System.Drawing.Point(148, 96);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(635, 126);
             this.groupBox1.TabIndex = 0;
@@ -177,19 +178,20 @@ namespace BaiTap
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnReset);
             this.panel1.Controls.Add(this.btnInHoaDonNhap);
             this.panel1.Controls.Add(this.btnThoat);
             this.panel1.Controls.Add(this.btnXoa);
             this.panel1.Controls.Add(this.btnSua);
             this.panel1.Controls.Add(this.btnThem);
-            this.panel1.Location = new System.Drawing.Point(52, 245);
+            this.panel1.Location = new System.Drawing.Point(103, 245);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(635, 57);
+            this.panel1.Size = new System.Drawing.Size(736, 57);
             this.panel1.TabIndex = 1;
             // 
             // btnInHoaDonNhap
             // 
-            this.btnInHoaDonNhap.Location = new System.Drawing.Point(399, 8);
+            this.btnInHoaDonNhap.Location = new System.Drawing.Point(388, 8);
             this.btnInHoaDonNhap.Name = "btnInHoaDonNhap";
             this.btnInHoaDonNhap.Size = new System.Drawing.Size(84, 42);
             this.btnInHoaDonNhap.TabIndex = 3;
@@ -199,7 +201,7 @@ namespace BaiTap
             // 
             // btnThoat
             // 
-            this.btnThoat.Location = new System.Drawing.Point(522, 8);
+            this.btnThoat.Location = new System.Drawing.Point(622, 8);
             this.btnThoat.Name = "btnThoat";
             this.btnThoat.Size = new System.Drawing.Size(75, 42);
             this.btnThoat.TabIndex = 2;
@@ -240,9 +242,9 @@ namespace BaiTap
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.dgvOrdersDetailImport);
-            this.groupBox2.Location = new System.Drawing.Point(25, 323);
+            this.groupBox2.Location = new System.Drawing.Point(12, 323);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(704, 230);
+            this.groupBox2.Size = new System.Drawing.Size(927, 304);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Danh sách phiếu nhập";
@@ -264,9 +266,33 @@ namespace BaiTap
             this.dgvOrdersDetailImport.Location = new System.Drawing.Point(3, 16);
             this.dgvOrdersDetailImport.Name = "dgvOrdersDetailImport";
             this.dgvOrdersDetailImport.RowHeadersWidth = 51;
-            this.dgvOrdersDetailImport.Size = new System.Drawing.Size(698, 211);
+            this.dgvOrdersDetailImport.Size = new System.Drawing.Size(921, 285);
             this.dgvOrdersDetailImport.TabIndex = 0;
             this.dgvOrdersDetailImport.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOrdersDetailImport_CellClick);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(369, 40);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(206, 25);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Chi Tiết Phiếu Nhập";
+            // 
+            // pdInHoaDonNhap
+            // 
+            this.pdInHoaDonNhap.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pdInHoaDonNhap_PrintPage);
+            // 
+            // prviewInHoaDonNhap
+            // 
+            this.prviewInHoaDonNhap.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.prviewInHoaDonNhap.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.prviewInHoaDonNhap.ClientSize = new System.Drawing.Size(400, 300);
+            this.prviewInHoaDonNhap.Enabled = true;
+            this.prviewInHoaDonNhap.Icon = ((System.Drawing.Icon)(resources.GetObject("prviewInHoaDonNhap.Icon")));
+            this.prviewInHoaDonNhap.Name = "prviewInHoaDonNhap";
+            this.prviewInHoaDonNhap.Visible = false;
             // 
             // tdId
             // 
@@ -308,7 +334,6 @@ namespace BaiTap
             this.tdQuantity.HeaderText = "Số lượng nhập";
             this.tdQuantity.MinimumWidth = 6;
             this.tdQuantity.Name = "tdQuantity";
-            this.tdQuantity.Width = 125;
             // 
             // tdPrice
             // 
@@ -331,35 +356,21 @@ namespace BaiTap
             this.tdNote.Name = "tdNote";
             this.tdNote.Width = 125;
             // 
-            // label5
+            // btnReset
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(331, 37);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(206, 25);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Chi Tiết Phiếu Nhập";
-            // 
-            // pdInHoaDonNhap
-            // 
-            this.pdInHoaDonNhap.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pdInHoaDonNhap_PrintPage);
-            // 
-            // prviewInHoaDonNhap
-            // 
-            this.prviewInHoaDonNhap.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            this.prviewInHoaDonNhap.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            this.prviewInHoaDonNhap.ClientSize = new System.Drawing.Size(400, 300);
-            this.prviewInHoaDonNhap.Enabled = true;
-            this.prviewInHoaDonNhap.Icon = ((System.Drawing.Icon)(resources.GetObject("prviewInHoaDonNhap.Icon")));
-            this.prviewInHoaDonNhap.Name = "prviewInHoaDonNhap";
-            this.prviewInHoaDonNhap.Visible = false;
+            this.btnReset.Location = new System.Drawing.Point(516, 8);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 42);
+            this.btnReset.TabIndex = 4;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // OrderImportDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(785, 667);
+            this.ClientSize = new System.Drawing.Size(977, 667);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.panel1);
@@ -398,6 +409,10 @@ namespace BaiTap
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtSoLuong;
         private System.Windows.Forms.DataGridView dgvOrdersDetailImport;
+        private System.Windows.Forms.Button btnInHoaDonNhap;
+        private System.Drawing.Printing.PrintDocument pdInHoaDonNhap;
+        private System.Windows.Forms.PrintPreviewDialog prviewInHoaDonNhap;
+        private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.DataGridViewTextBoxColumn tdId;
         private System.Windows.Forms.DataGridViewTextBoxColumn tdCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn tdProductId;
@@ -407,9 +422,6 @@ namespace BaiTap
         private System.Windows.Forms.DataGridViewTextBoxColumn tdPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn tdTotalPrice;
         private System.Windows.Forms.DataGridViewTextBoxColumn tdNote;
-        private System.Windows.Forms.Button btnInHoaDonNhap;
-        private System.Drawing.Printing.PrintDocument pdInHoaDonNhap;
-        private System.Windows.Forms.PrintPreviewDialog prviewInHoaDonNhap;
         //private System.Windows.Forms.DataGridViewTextBoxColumn Name;
         //private System.Windows.Forms.DataGridViewTextBoxColumn Address;
         //private System.Windows.Forms.DataGridViewTextBoxColumn Phone;

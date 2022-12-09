@@ -30,16 +30,14 @@ namespace BaiTap
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnTimKiem = new System.Windows.Forms.Button();
             this.datetimpickeNgayKetThuc = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.datetimpiceNgayBatDau = new System.Windows.Forms.DateTimePicker();
             this.label11 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.dgvPhieuXuat = new System.Windows.Forms.DataGridView();
-            this.label5 = new System.Windows.Forms.Label();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.btnTimKiem = new System.Windows.Forms.Button();
+            this.dgvThongTinThongKe = new System.Windows.Forms.DataGridView();
             this.tdSTT = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tdTenSanPham = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tdDonGia = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,9 +46,11 @@ namespace BaiTap
             this.tdThanhTien = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tdNgayNhap = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tdDiaChi = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label5 = new System.Windows.Forms.Label();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPhieuXuat)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvThongTinThongKe)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -61,32 +61,41 @@ namespace BaiTap
             this.groupBox1.Controls.Add(this.datetimpiceNgayBatDau);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.comboBox1);
-            this.groupBox1.Location = new System.Drawing.Point(137, 106);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Location = new System.Drawing.Point(137, 86);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(921, 92);
+            this.groupBox1.Size = new System.Drawing.Size(691, 75);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Thông tin thống kê";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
+            // btnTimKiem
+            // 
+            this.btnTimKiem.Location = new System.Drawing.Point(550, 18);
+            this.btnTimKiem.Margin = new System.Windows.Forms.Padding(2);
+            this.btnTimKiem.Name = "btnTimKiem";
+            this.btnTimKiem.Size = new System.Drawing.Size(94, 42);
+            this.btnTimKiem.TabIndex = 36;
+            this.btnTimKiem.Text = "Tìm kiếm";
+            this.btnTimKiem.UseVisualStyleBackColor = true;
+            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
+            // 
             // datetimpickeNgayKetThuc
             // 
             this.datetimpickeNgayKetThuc.CustomFormat = "dd/MM/yyyy";
             this.datetimpickeNgayKetThuc.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.datetimpickeNgayKetThuc.Location = new System.Drawing.Point(479, 39);
+            this.datetimpickeNgayKetThuc.Location = new System.Drawing.Point(359, 32);
+            this.datetimpickeNgayKetThuc.Margin = new System.Windows.Forms.Padding(2);
             this.datetimpickeNgayKetThuc.Name = "datetimpickeNgayKetThuc";
-            this.datetimpickeNgayKetThuc.Size = new System.Drawing.Size(156, 22);
+            this.datetimpickeNgayKetThuc.Size = new System.Drawing.Size(118, 20);
             this.datetimpickeNgayKetThuc.TabIndex = 35;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(372, 43);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(279, 35);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 16);
+            this.label1.Size = new System.Drawing.Size(74, 13);
             this.label1.TabIndex = 34;
             this.label1.Text = "Ngày kết thúc";
             // 
@@ -94,18 +103,18 @@ namespace BaiTap
             // 
             this.datetimpiceNgayBatDau.CustomFormat = "dd/MM/yyyy";
             this.datetimpiceNgayBatDau.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.datetimpiceNgayBatDau.Location = new System.Drawing.Point(140, 39);
+            this.datetimpiceNgayBatDau.Location = new System.Drawing.Point(105, 32);
+            this.datetimpiceNgayBatDau.Margin = new System.Windows.Forms.Padding(2);
             this.datetimpiceNgayBatDau.Name = "datetimpiceNgayBatDau";
-            this.datetimpiceNgayBatDau.Size = new System.Drawing.Size(156, 22);
+            this.datetimpiceNgayBatDau.Size = new System.Drawing.Size(118, 20);
             this.datetimpiceNgayBatDau.TabIndex = 33;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(33, 43);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label11.Location = new System.Drawing.Point(25, 35);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(88, 16);
+            this.label11.Size = new System.Drawing.Size(72, 13);
             this.label11.TabIndex = 31;
             this.label11.Text = "Ngày bắt đầu";
             // 
@@ -115,28 +124,25 @@ namespace BaiTap
             this.comboBox1.Items.AddRange(new object[] {
             "Trống",
             "Có Khách"});
-            this.comboBox1.Location = new System.Drawing.Point(564, 192);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox1.Location = new System.Drawing.Point(423, 156);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(155, 24);
+            this.comboBox1.Size = new System.Drawing.Size(117, 21);
             this.comboBox1.TabIndex = 26;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.dgvPhieuXuat);
-            this.groupBox2.Location = new System.Drawing.Point(92, 244);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Controls.Add(this.dgvThongTinThongKe);
+            this.groupBox2.Location = new System.Drawing.Point(46, 198);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(1013, 461);
+            this.groupBox2.Size = new System.Drawing.Size(878, 375);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Danh sách sản phẩm";
             // 
-            // dgvPhieuXuat
+            // dgvThongTinThongKe
             // 
-            this.dgvPhieuXuat.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPhieuXuat.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvThongTinThongKe.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvThongTinThongKe.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.tdSTT,
             this.tdTenSanPham,
             this.tdDonGia,
@@ -145,41 +151,19 @@ namespace BaiTap
             this.tdThanhTien,
             this.tdNgayNhap,
             this.tdDiaChi});
-            this.dgvPhieuXuat.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPhieuXuat.Location = new System.Drawing.Point(4, 19);
-            this.dgvPhieuXuat.Margin = new System.Windows.Forms.Padding(4);
-            this.dgvPhieuXuat.Name = "dgvPhieuXuat";
-            this.dgvPhieuXuat.RowHeadersWidth = 51;
-            this.dgvPhieuXuat.Size = new System.Drawing.Size(1005, 438);
-            this.dgvPhieuXuat.TabIndex = 16;
-            this.dgvPhieuXuat.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPhieuXuat_CellClick);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(483, 39);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(126, 29);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Thống kê";
-            // 
-            // btnTimKiem
-            // 
-            this.btnTimKiem.Location = new System.Drawing.Point(733, 22);
-            this.btnTimKiem.Name = "btnTimKiem";
-            this.btnTimKiem.Size = new System.Drawing.Size(125, 52);
-            this.btnTimKiem.TabIndex = 36;
-            this.btnTimKiem.Text = "Tìm kiếm";
-            this.btnTimKiem.UseVisualStyleBackColor = true;
+            this.dgvThongTinThongKe.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvThongTinThongKe.Location = new System.Drawing.Point(3, 16);
+            this.dgvThongTinThongKe.Name = "dgvThongTinThongKe";
+            this.dgvThongTinThongKe.RowHeadersWidth = 51;
+            this.dgvThongTinThongKe.Size = new System.Drawing.Size(872, 356);
+            this.dgvThongTinThongKe.TabIndex = 16;
             // 
             // tdSTT
             // 
             this.tdSTT.HeaderText = "STT";
             this.tdSTT.MinimumWidth = 6;
             this.tdSTT.Name = "tdSTT";
-            this.tdSTT.Width = 50;
+            this.tdSTT.Width = 38;
             // 
             // tdTenSanPham
             // 
@@ -193,21 +177,19 @@ namespace BaiTap
             this.tdDonGia.HeaderText = "Đơn giá";
             this.tdDonGia.MinimumWidth = 6;
             this.tdDonGia.Name = "tdDonGia";
-            this.tdDonGia.Width = 125;
             // 
             // tdTongSanPham
             // 
             this.tdTongSanPham.HeaderText = "Tổng sản phẩm";
             this.tdTongSanPham.MinimumWidth = 6;
             this.tdTongSanPham.Name = "tdTongSanPham";
-            this.tdTongSanPham.Width = 150;
+            this.tdTongSanPham.Width = 130;
             // 
             // tdSoLuongBan
             // 
             this.tdSoLuongBan.HeaderText = "Số lượng bán";
             this.tdSoLuongBan.MinimumWidth = 6;
             this.tdSoLuongBan.Name = "tdSoLuongBan";
-            this.tdSoLuongBan.Width = 125;
             // 
             // tdThanhTien
             // 
@@ -221,31 +203,38 @@ namespace BaiTap
             this.tdNgayNhap.HeaderText = "Ngày nhập";
             this.tdNgayNhap.MinimumWidth = 6;
             this.tdNgayNhap.Name = "tdNgayNhap";
-            this.tdNgayNhap.Width = 125;
             // 
             // tdDiaChi
             // 
             this.tdDiaChi.HeaderText = "Ngày xuất";
             this.tdDiaChi.MinimumWidth = 6;
             this.tdDiaChi.Name = "tdDiaChi";
-            this.tdDiaChi.Width = 125;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(396, 32);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(103, 25);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Thống kê";
             // 
             // ThongKe
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1202, 821);
+            this.ClientSize = new System.Drawing.Size(988, 667);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ThongKe";
             this.Text = "Phiếu nhập";
             this.Load += new System.EventHandler(this.OrderExport_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvPhieuXuat)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvThongTinThongKe)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -258,7 +247,7 @@ namespace BaiTap
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.DataGridView dgvPhieuXuat;
+        private System.Windows.Forms.DataGridView dgvThongTinThongKe;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.DateTimePicker datetimpiceNgayBatDau;
         private System.Windows.Forms.DateTimePicker datetimpickeNgayKetThuc;

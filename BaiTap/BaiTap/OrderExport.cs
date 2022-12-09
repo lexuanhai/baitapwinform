@@ -15,7 +15,7 @@ namespace BaiTap
 {
     public partial class OrderExport : Form
     {
-        SqlConnection con = new SqlConnection("Data Source=G07VNXDFVLTTI15;Initial Catalog=MyPham;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=DESKTOP-DDVHBI0;Initial Catalog=MyPham;Integrated Security=True");
         private int OrderExportId = 0;
         public OrderExport()
         {
@@ -146,7 +146,7 @@ namespace BaiTap
                 {
                     //model.NgayNhap = DateTime.Now;
                     //var qry = "insert into OrderImport values('" + model.MaPhieu + "','" + model.UserName + "','" + model.NgayNhap + "'," + model.Total + ",'N" + model.Note + "')";
-                    var qry = "Insert into OrderExport(Code, UserName, AgentName, Phone, Email, Address, TypePayment, Status,CreatedDate) values('" + model.Code + "','" + model.UserName + "','" + model.AgentName + "','" + model.Phone + "','" + model.Email + "',N'" + model.Address + "',N'" + model.TypePayment + "',N'" + model.Status + "','" + model.CreatedDate + "')";
+                    var qry = "Insert into OrderExport(Code, UserName, AgentName, Phone, Email, Address, TypePayment, Status,CreatedDate) values('" + model.Code + "','" + model.UserName + "',N'" + model.AgentName + "','" + model.Phone + "','" + model.Email + "',N'" + model.Address + "',N'" + model.TypePayment + "',N'" + model.Status + "','" + model.CreatedDate + "')";
                         //"values('" + model.Code + "','"+model.UserName+"','"+model.AgentName+"','"+model.Phone+"','"+model.Email+"',N'"+model.Address+"',N'"+model.TypePayment+"',N'"+model.Status+"')";
                     SqlCommand sc = new SqlCommand(qry, con);
                     if (con.State == ConnectionState.Closed)
@@ -367,6 +367,11 @@ namespace BaiTap
         {
             LoadFormcustom();
             LoadDataCombobox();
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            SetValueNull();
         }
 
         //private void dgvPhong_CellClick(object sender, DataGridViewCellEventArgs e)

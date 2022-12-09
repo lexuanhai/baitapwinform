@@ -51,14 +51,11 @@ E:\Hoc-Tap\Bai-tap\baitapwinform\BaiTap\BaiTap\obj\Debug\BaiTap.csproj.GenerateR
 E:\Hoc-Tap\Bai-tap\baitapwinform\BaiTap\BaiTap\obj\Debug\BaiTap.csproj.CoreCompileInputs.cache
 E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.csproj.AssemblyReference.cache
 E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.csproj.SuggestedBindingRedirects.cache
-E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.ChuongTrinhQuanLiKhachSan.resources
 E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.OrderExport.resources
 E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.OrderExportDetail.resources
 E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.OrderImportDetail.resources
 E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.OrderImport.resources
 E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.Properties.Resources.resources
-E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.QuanLyKhachSan.resources
-E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.Thanh_Toan.resources
 E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.csproj.GenerateResource.cache
 E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.csproj.CoreCompileInputs.cache
 E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\bin\Debug\BaiTap.exe.config
@@ -84,3 +81,5 @@ C:\hoc-tap\winform\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.exe
 C:\hoc-tap\winform\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.pdb
 C:\hoc-tap\winform\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.ChuongTrinhQuanLy.resources
 C:\hoc-tap\winform\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.ThongKe.resources
+E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.ChuongTrinhQuanLy.resources
+E:\Hoc-Tap\Bai-tap\quan-ly-kho\BaiTap\BaiTap\obj\Debug\BaiTap.ThongKe.resources

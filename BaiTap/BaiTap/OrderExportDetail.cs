@@ -16,7 +16,7 @@ namespace BaiTap
     public partial class OrderExportDetail : Form
     {
         private int OrderExportDetailId = 0;
-        SqlConnection con = new SqlConnection("Data Source=G07VNXDFVLTTI15;Initial Catalog=MyPham;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=DESKTOP-DDVHBI0;Initial Catalog=MyPham;Integrated Security=True");
         public OrderExportDetail()
         {
             InitializeComponent();
@@ -445,6 +445,7 @@ namespace BaiTap
 
         private void OrderExportDetail_Load(object sender, EventArgs e)
         {
+            txtTenDaiLy.ReadOnly = true;
             LoadFormcustom();
             LoadDataPhieuNhapCombobox();
             LoadDataSanPhamCombobox();
@@ -617,6 +618,21 @@ namespace BaiTap
         {
             prviewInHoaDonXuat.Document = pdHoaDonXuat;
             prviewInHoaDonXuat.ShowDialog();
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            SetValueNull();
+        }
+
+        private void cmbMaPhieu_SelectedValueChanged(object sender, EventArgs e)
+        {
+           int maphieu = Convert.ToInt32(cmbMaPhieu.SelectedValue);
+           var phieu = GetOrderImportById(maphieu);
+            if (phieu != null && !string.IsNullOrEmpty(phieu.AgentName))
+            {
+                txtTenDaiLy.Text = phieu.AgentName;
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ namespace BaiTap
 {
     public partial class OrderImport : Form
     {
-        SqlConnection con = new SqlConnection("Data Source=G07VNXDFVLTTI15;Initial Catalog=MyPham;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=DESKTOP-DDVHBI0;Initial Catalog=MyPham;Integrated Security=True");
         public OrderImport()
         {
             InitializeComponent();
@@ -57,7 +57,7 @@ namespace BaiTap
         }
         public void LoadFormcustom()
         {
-            SqlDataAdapter sda = new SqlDataAdapter("select od.Id as Id, CodeOrder,od.MaNV as MaNV,CreateDated,Total,Note,Name from OrderImport od left join Staff st on od.MaNV = st.MaNV", con);
+            SqlDataAdapter sda = new SqlDataAdapter("select od.Id as Id, CodeOrder,od.MaNV as MaNV,CreateDated,Total,Note,Name,ImportLocation from OrderImport od left join Staff st on od.MaNV = st.MaNV", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             dgvPhong.Rows.Clear();
@@ -69,7 +69,7 @@ namespace BaiTap
                 dgvPhong.Rows[n].Cells[2].Value = dr["MaNV"].ToString();
                 dgvPhong.Rows[n].Cells[3].Value = dr["Name"].ToString();
                 dgvPhong.Rows[n].Cells[4].Value = dr["CreateDated"].ToString();
-                dgvPhong.Rows[n].Cells[5].Value = dr["Total"].ToString();
+                dgvPhong.Rows[n].Cells[5].Value = dr["ImportLocation"].ToString();
                 dgvPhong.Rows[n].Cells[6].Value = dr["Note"].ToString();
             }
         }
@@ -78,25 +78,24 @@ namespace BaiTap
         {
             var model = new PhieuModel();
             model.MaPhieu = txsMaPhieu.Text;
-            //model.UserName = txt.Text;
-            model.Total = Convert.ToInt32(txtTongSanPham.Text);
-            //model.DonGia = Convert.ToDecimal(txtTongSanPham.Text);
+            model.ImportLocation = txtDiaDiemKho.Text;
             model.UserName = cmbNhanVien.SelectedValue.ToString();
+            model.NgayNhap = datetimpiceNgayNhapKho.Value;
             model.Note = txtNote.Text;
             return model;
         }
         public void SetValue(PhieuModel model)
         {
             txsMaPhieu.Text = model.MaPhieu;
-            txtTongSanPham.Text = Convert.ToString(model.Total);
+            txtDiaDiemKho.Text = model.ImportLocation;
             cmbNhanVien.SelectedValue = model.UserName;
         }
         public void SetValueNull()
         {
             txsMaPhieu.Text = "";
             txtNote.Text = "";
-            txtTongSanPham.Text = "";
             cmbNhanVien.SelectedItem = "";
+            txtDiaDiemKho.Text = "";
         }
 
         private void btnThem_Click(object sender, EventArgs e)
@@ -110,8 +109,7 @@ namespace BaiTap
                 }
                 else
                 {
-                    model.NgayNhap = DateTime.Now;
-                    var qry = "insert into OrderImport(CodeOrder,MaNV,CreateDated,Total,Note) values('" + model.MaPhieu + "','" + model.UserName + "','" + model.NgayNhap + "'," + model.Total + ",'N" + model.Note + "')";
+                    var qry = "insert into OrderImport(CodeOrder,MaNV,CreateDated,Total,Note,ImportLocation) values('" + model.MaPhieu + "','" + model.UserName + "','" + model.NgayNhap + "'," + model.Total + ",N'" + model.Note + "',N'" + model.ImportLocation + "')";
                     SqlCommand sc = new SqlCommand(qry, con);
                     if (con.State == ConnectionState.Closed)
                     {
@@ -197,7 +195,7 @@ namespace BaiTap
             {
                 con.Open();
                 var model = GetValue();
-                String qry = "update OrderImport set Total=" + model.Total + ",Note=N'"+model.Note+"' where CodeOrder='" + model.MaPhieu + "'";
+                String qry = "update OrderImport set Total=" + model.Total + ",Note=N'"+model.Note+ "', ImportLocation=N'" + model.ImportLocation+ "', CreateDated='" + model.NgayNhap + "'  where CodeOrder='" + model.MaPhieu + "'";
                 SqlCommand sc = new SqlCommand(qry, con);
                 int i = sc.ExecuteNonQuery();
                 if (i >= 1)
@@ -272,9 +270,9 @@ namespace BaiTap
                 {
                     cmbNhanVien.SelectedValue = dgvPhong.Rows[cell.RowIndex].Cells["MaNV"].Value.ToString();                   
                 }
-                if (dgvPhong.Rows[cell.RowIndex].Cells["Total"].Value != null)
+                if (dgvPhong.Rows[cell.RowIndex].Cells["tdDiaDiemNhapKho"].Value != null)
                 {
-                    txtTongSanPham.Text = dgvPhong.Rows[cell.RowIndex].Cells["Total"].Value.ToString();
+                    txtDiaDiemKho.Text = dgvPhong.Rows[cell.RowIndex].Cells["tdDiaDiemNhapKho"].Value.ToString();
                 }
                 if (dgvPhong.Rows[cell.RowIndex].Cells["Note"].Value != null)
                 {
@@ -282,6 +280,12 @@ namespace BaiTap
                 }
                 cmbNhanVien.Show();
             }
-        }       
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            txsMaPhieu.ReadOnly = false;
+            SetValueNull();
+        }
     }
 }

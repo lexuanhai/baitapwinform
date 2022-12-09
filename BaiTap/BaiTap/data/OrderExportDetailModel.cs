@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaiTap.data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,4 +20,26 @@ namespace BaiTap.data
         public int Quantity { get; set; }
     }
   
+}
+
+public class OrderExportDetailPDFModel
+{
+    // hóa đơn xuất
+    public string STT { get; set; }
+    public string CodeOrder { get; set; }
+    // nhân viên
+    public string MaNV { get; set; }
+    public string Name { get; set; }
+    // thông tin đại lý
+    public string AgentName { get; set; }
+    public string Phone { get; set; }
+    public string Email { get; set; }
+    public string Address { get; set; }
+    public decimal Total { get; set; }
+    public string TypePayment { get; set; }
+    public string Status { get; set; }
+    public DateTime? CreatedDate { get; set; }
+    public string Note { get; set; }
+    // thông tin sản phẩm
+    public List<ProductModel> Products { get; set; }
 }

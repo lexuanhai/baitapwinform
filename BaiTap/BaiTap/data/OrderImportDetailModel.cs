@@ -20,9 +20,18 @@ namespace BaiTap.data
     }
     public class OrderImportDetailExportModel
     {
+        public string STT { get; set; }
+        public string CodeOrder { get; set; }
+        public string MaNV { get; set; }
         public string Name { get; set; }
-        public PhieuModel PhieuNhap { get; set; } 
-        public List<ProductModel> Products { get; set; }
+        public string ProductName { get; set; }
+        public string ProductPrice { get; set; }
+        public int Quantity { get; set; }
+        public decimal TotalPrice { get; set; }
+        public string CreateDatedStr { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string Note { get; set; }
+        public List<ProductModel>  Products { get; set; }
     }
 
 

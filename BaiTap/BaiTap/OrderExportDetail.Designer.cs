@@ -29,6 +29,7 @@ namespace BaiTap
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OrderExportDetail));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label10 = new System.Windows.Forms.Label();
             this.cmbTinhTrang = new System.Windows.Forms.ComboBox();
@@ -60,6 +61,9 @@ namespace BaiTap
             this.tdNote = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tdTrangThai = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label5 = new System.Windows.Forms.Label();
+            this.pdHoaDonXuat = new System.Drawing.Printing.PrintDocument();
+            this.prviewInHoaDonXuat = new System.Windows.Forms.PrintPreviewDialog();
+            this.btnInHoaDonXuat = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -200,6 +204,7 @@ namespace BaiTap
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnInHoaDonXuat);
             this.panel1.Controls.Add(this.btnThoat);
             this.panel1.Controls.Add(this.btnXoa);
             this.panel1.Controls.Add(this.btnSua);
@@ -211,7 +216,7 @@ namespace BaiTap
             // 
             // btnThoat
             // 
-            this.btnThoat.Location = new System.Drawing.Point(481, 8);
+            this.btnThoat.Location = new System.Drawing.Point(535, 8);
             this.btnThoat.Name = "btnThoat";
             this.btnThoat.Size = new System.Drawing.Size(75, 42);
             this.btnThoat.TabIndex = 2;
@@ -221,7 +226,7 @@ namespace BaiTap
             // 
             // btnXoa
             // 
-            this.btnXoa.Location = new System.Drawing.Point(356, 8);
+            this.btnXoa.Location = new System.Drawing.Point(293, 8);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(75, 42);
             this.btnXoa.TabIndex = 2;
@@ -231,7 +236,7 @@ namespace BaiTap
             // 
             // btnSua
             // 
-            this.btnSua.Location = new System.Drawing.Point(210, 8);
+            this.btnSua.Location = new System.Drawing.Point(165, 8);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(75, 42);
             this.btnSua.TabIndex = 1;
@@ -241,9 +246,9 @@ namespace BaiTap
             // 
             // btnThem
             // 
-            this.btnThem.Location = new System.Drawing.Point(76, 8);
+            this.btnThem.Location = new System.Drawing.Point(38, 8);
             this.btnThem.Name = "btnThem";
-            this.btnThem.Size = new System.Drawing.Size(75, 42);
+            this.btnThem.Size = new System.Drawing.Size(81, 42);
             this.btnThem.TabIndex = 0;
             this.btnThem.Text = "Nhập";
             this.btnThem.UseVisualStyleBackColor = true;
@@ -356,6 +361,30 @@ namespace BaiTap
             this.label5.TabIndex = 12;
             this.label5.Text = "Chi Tiết Phiếu Xuất";
             // 
+            // pdHoaDonXuat
+            // 
+            this.pdHoaDonXuat.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pdHoaDonXuat_PrintPage);
+            // 
+            // prviewInHoaDonXuat
+            // 
+            this.prviewInHoaDonXuat.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.prviewInHoaDonXuat.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.prviewInHoaDonXuat.ClientSize = new System.Drawing.Size(400, 300);
+            this.prviewInHoaDonXuat.Enabled = true;
+            this.prviewInHoaDonXuat.Icon = ((System.Drawing.Icon)(resources.GetObject("prviewInHoaDonXuat.Icon")));
+            this.prviewInHoaDonXuat.Name = "prviewInHoaDonXuat";
+            this.prviewInHoaDonXuat.Visible = false;
+            // 
+            // btnInHoaDonXuat
+            // 
+            this.btnInHoaDonXuat.Location = new System.Drawing.Point(409, 8);
+            this.btnInHoaDonXuat.Name = "btnInHoaDonXuat";
+            this.btnInHoaDonXuat.Size = new System.Drawing.Size(75, 42);
+            this.btnInHoaDonXuat.TabIndex = 13;
+            this.btnInHoaDonXuat.Text = "In hóa đơn";
+            this.btnInHoaDonXuat.UseVisualStyleBackColor = true;
+            this.btnInHoaDonXuat.Click += new System.EventHandler(this.btnInHoaDonXuat_Click);
+            // 
             // OrderExportDetail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -411,6 +440,9 @@ namespace BaiTap
         private System.Windows.Forms.DataGridViewTextBoxColumn tdTongGia;
         private System.Windows.Forms.DataGridViewTextBoxColumn tdNote;
         private System.Windows.Forms.DataGridViewTextBoxColumn tdTrangThai;
+        private System.Drawing.Printing.PrintDocument pdHoaDonXuat;
+        private System.Windows.Forms.PrintPreviewDialog prviewInHoaDonXuat;
+        private System.Windows.Forms.Button btnInHoaDonXuat;
         //private System.Windows.Forms.DataGridViewTextBoxColumn Name;
         //private System.Windows.Forms.DataGridViewTextBoxColumn Address;
         //private System.Windows.Forms.DataGridViewTextBoxColumn Phone;

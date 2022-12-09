@@ -438,5 +438,160 @@ namespace BaiTap
             LoadDataPhieuNhapCombobox();
             LoadDataSanPhamCombobox();
         }
+
+        public OrderImportDetailExportModel GetDetailOrderDetailProduct(string code)
+        {
+            if (!string.IsNullOrEmpty(code))
+            {
+                var orderImportDetailExportModel = new OrderImportDetailExportModel();
+                if (con.State == ConnectionState.Closed)
+                {
+                    con.Open();
+                }
+
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Code," +
+                    "oi.CreatedDate as CreatedDateOi," +
+                    "AgentName," +
+                    "Phone," +
+                    "Email," +
+                    "Address," +
+                    "Total," +
+                    "TypePayment," +
+                    "oi.Status as StatusOi," +
+                    "st.MaNV as MaNV," +
+                    "st.Name as Name," +
+                    "pr.name as ProductName," +
+                    "oid.Quantity as Quantity," +
+                    "oid.TotalPrice as TotalPrice," +
+                    "oid.Status as StatusOID," +
+                    "oid.Note as NoteOID " +
+                    "FROM OrderExport oi " +
+                    "inner join Staff st on oi.UserName = st.MaNV  " +
+                    "inner join OrderExportDetail oid on oi.Id = oid.OrderExportId  " +
+                    "inner join Products pr on oid.ProductId = pr.id " +
+                    "where oi.Code ='"+ code + "'", con);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+
+                if (dt.Rows != null && dt.Rows.Count > 0)
+                {
+                    orderImportDetailExportModel.CodeOrder = Convert.ToString(dt.Rows[0]["CodeOrder"]);
+                    if (dt.Rows[0]["CreateDated"] != null)
+                    {
+                        orderImportDetailExportModel.CreateDatedStr = Convert.ToDateTime(dt.Rows[0]["CreateDated"]).ToString("dd/MM/yyyy HH:mm");
+                        orderImportDetailExportModel.CreatedDate = Convert.ToDateTime(dt.Rows[0]["CreateDated"]);
+                    }
+                    orderImportDetailExportModel.MaNV = Convert.ToString(dt.Rows[0]["MaNV"]);
+                    orderImportDetailExportModel.Name = Convert.ToString(dt.Rows[0]["Name"]);
+                    orderImportDetailExportModel.ProductName = Convert.ToString(dt.Rows[0]["ProductName"]);
+                    orderImportDetailExportModel.ProductPrice = Convert.ToString(dt.Rows[0]["ProductPrice"]);
+                    orderImportDetailExportModel.Quantity = Convert.ToInt32(dt.Rows[0]["Quantity"]);
+                    orderImportDetailExportModel.TotalPrice = Convert.ToDecimal(dt.Rows[0]["TotalPrice"]);
+                    orderImportDetailExportModel.Note = Convert.ToString(dt.Rows[0]["Note"]);
+                    var listProducts = new List<ProductModel>();
+                    int i = 0;
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        var product = new ProductModel();
+                        product.Name = Convert.ToString(dt.Rows[i]["ProductName"]);
+                        product.Price = Convert.ToDecimal(dt.Rows[i]["ProductPrice"]);
+                        product.Quantity = Convert.ToInt32(dt.Rows[i]["Quantity"]);
+                        product.Note = Convert.ToString(dt.Rows[i]["OrderDetailNote"]);
+                        listProducts.Add(product);
+                        i++;
+                    }
+                    orderImportDetailExportModel.Products = listProducts;
+                }
+                return orderImportDetailExportModel;
+            }
+
+            return null;
+        }
+
+
+        private void pdHoaDonXuat_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            string code = cmbMaPhieu.Text;
+            if (!string.IsNullOrEmpty(code))
+            {
+                //var phieu =  GetOrderImportByCode(string codeOrder);
+                var detailOrderDetailProduct = GetDetailOrderDetailProduct(code);
+                if (detailOrderDetailProduct != null)
+                {
+                    string day = DateTime.Now.Day > 10 ? DateTime.Now.Day.ToString() : "0" + DateTime.Now.Day.ToString();
+                    string month = DateTime.Now.Month > 10 ? DateTime.Now.Month.ToString() : "0" + DateTime.Now.Month.ToString();
+                    var w = pdHoaDonXuat.DefaultPageSettings.PaperSize.Width;
+                    string date = "Ngày " + day + " tháng " + month + " năm " + DateTime.Now.Year;
+                    e.Graphics.DrawString("PHIẾU XUẤT HÀNG", new Font("Courier New", 25, FontStyle.Bold), Brushes.Black, new Point(w / 2 - 140, 40));
+                    e.Graphics.DrawString(date, new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(w / 2 - 120, 90));
+                    int y = 150;
+                    int x = 20;
+                    e.Graphics.DrawString("Mã phiếu       : " + detailOrderDetailProduct.CodeOrder, new Font("Courier New", 13, FontStyle.Regular), Brushes.Black, new Point(x, y));
+                    y += 40;
+                    e.Graphics.DrawString("Mã nhân viên   : " + detailOrderDetailProduct.MaNV, new Font("Courier New", 13, FontStyle.Regular), Brushes.Black, new Point(x, y));
+                    y += 40;
+                    e.Graphics.DrawString("Tên nhân viên  : " + detailOrderDetailProduct.Name, new Font("Courier New", 13, FontStyle.Regular), Brushes.Black, new Point(x, y));
+                    y += 40;
+                    e.Graphics.DrawString("Ghi chú        : " + detailOrderDetailProduct.CodeOrder, new Font("Courier New", 13, FontStyle.Regular), Brushes.Black, new Point(x, y));
+                    y += 40;
+                    e.Graphics.DrawString("Danh sách sản phẩm: ", new Font("Courier New", 14, FontStyle.Bold), Brushes.Black, new Point(x, y));
+
+                    y += 30;
+
+                    e.Graphics.DrawString("STT", new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(x, y));
+                    x += 50;
+                    e.Graphics.DrawString("Tên sản phẩm", new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(x, y));
+                    x += 170;
+                    e.Graphics.DrawString("Giá ", new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(x, y));
+                    x += 100;
+                    e.Graphics.DrawString("Số lượng", new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(x, y));
+                    x += 130;
+                    e.Graphics.DrawString("Thành tiền", new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(x, y));
+                    x += 140;
+                    e.Graphics.DrawString("Ghi chú", new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(x, y));
+                    //x += 70;
+                    //e.Graphics.DrawString("Ghi chú", new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(x, y));
+                    decimal totalPrice = 0;
+                    if (detailOrderDetailProduct.Products != null && detailOrderDetailProduct.Products.Count > 0)
+                    {
+                        int i = 0;
+                        foreach (var item in detailOrderDetailProduct.Products)
+                        {
+                            i++;
+                            y += 30;
+                            int ix = 20;
+                            decimal total = item.Price * item.Quantity;
+                            totalPrice += total;
+                            e.Graphics.DrawString(i.ToString(), new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(ix, y));
+                            ix += 50;
+                            e.Graphics.DrawString(item.Name, new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(ix, y));
+                            ix += 170;
+                            e.Graphics.DrawString(item.Price.ToString(), new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(ix, y));
+                            ix += 100;
+                            e.Graphics.DrawString(item.Quantity.ToString(), new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(ix, y));
+                            ix += 130;
+                            e.Graphics.DrawString(total.ToString(), new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(ix, y));
+                            ix += 140;
+                            e.Graphics.DrawString(item.Note, new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(ix, y));
+                        }
+                    }
+                    y += 40;
+                    Pen blackpen = new Pen(Color.Black, 1);
+                    Point p1 = new Point(10, y);
+                    Point p2 = new Point(w - 10, y);
+                    e.Graphics.DrawLine(blackpen, p1, p2);
+                    y += 10;
+                    e.Graphics.DrawString("Tổng tiền ", new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(20, y));
+                    e.Graphics.DrawString(totalPrice.ToString("#,###"), new Font("Courier New", 13, FontStyle.Bold), Brushes.Black, new Point(470, y));
+                }
+
+            }
+        }
+
+        private void btnInHoaDonXuat_Click(object sender, EventArgs e)
+        {
+            prviewInHoaDonXuat.Document = pdHoaDonXuat;
+            prviewInHoaDonXuat.ShowDialog();
+        }
     }
 }

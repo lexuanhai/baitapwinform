@@ -17,8 +17,10 @@ namespace BaiTap.data
         public string Address { get; set; }
         public decimal Total { get; set; }
         public string TypePayment { get; set; }
-        public string Status { get; set; }
-        public DateTime? CreatedDate { get; set; }       
+        public string StatusTypePayment { get; set; }
+        public int Status { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? ExportDate { get; set; }
     }
   
 }

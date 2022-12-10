@@ -15,7 +15,9 @@ namespace BaiTap
 {
     public partial class OrderExport : Form
     {
-        SqlConnection con = new SqlConnection("Data Source=DESKTOP-DDVHBI0;Initial Catalog=MyPham;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=MyPham;Integrated Security=True");
+        public Dictionary<string, string> PayMentType = new Dictionary<string, string>();
+        
         private int OrderExportId = 0;
         public OrderExport()
         {
@@ -42,47 +44,87 @@ namespace BaiTap
             //cmbNhanVien.DisplayMember = "Text";
             //cmbNhanVien.ValueMember = "Name";
         }
-        public void LoadDataCombobox()
-        {
-            string query = "select MaNV, Name from Staff";
-            con.Open();
-            SqlCommand da = new SqlCommand(query, con);
-            DataTable dt = new DataTable();
+        //public void LoadDataCombobox()
+        //{
+        //    string query = "select MaNV, Name from Staff";
+        //    con.Open();
+        //    SqlCommand da = new SqlCommand(query, con);
+        //    DataTable dt = new DataTable();
            
-            SqlDataReader myReader = da.ExecuteReader();
-            dt.Load(myReader);
+        //    SqlDataReader myReader = da.ExecuteReader();
+        //    dt.Load(myReader);
                       
-            cmbNhanVien.DisplayMember = "Name";
-            cmbNhanVien.ValueMember = "MaNV";
-            cmbNhanVien.DataSource = dt;
-            con.Close();
-        }
+        //    cmbNhanVien.DisplayMember = "Name";
+        //    cmbNhanVien.ValueMember = "MaNV";
+        //    cmbNhanVien.DataSource = dt;
+        //    con.Close();
+        //}
         public void LoadFormcustom()
         {
             if (con.State == ConnectionState.Closed)
             {
                 con.Open();
-            }
-            SqlDataAdapter sda = new SqlDataAdapter("SELECT OE.[Id] as Id, [Code] ,[CreatedDate] ,AC.[name] AS [Name] ,OE.[UserName] AS UserName,OE.[Address] AS Address ,[AgentName] ,OE.[Phone] As Phone ,OE.[Email] AS [Email] ,[Total] ,[TypePayment] ,[Status] FROM OrderExport OE inner join Staff AC on OE.UserName = AC.MaNV", con);
+            }            
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT " +
+               "OE.[Id] as Id, " +
+               "OE.[CreateDate], " +              
+               "OE.[name] AS OrderName ," +
+               "OE.[UserName] AS UserName, " +
+               "OE.[Address] AS Address, " +
+               "OE.[Phone] AS Phone, " +
+               "[Total] ," +
+               "[TypePaymet] ," +
+               "[Status], " +
+               "[StatusPayment], " +
+               "AC.[name] AS [Name]," +
+               "AC.[username] AS [usernameCustomer] " +
+               "FROM Orders OE " +
+               "left join Accounts AC on OE.UserName = AC.username", con);
+
             DataTable dt = new DataTable();
             sda.Fill(dt);
             dgvPhieuXuat.Rows.Clear();
             foreach (DataRow dr in dt.Rows)
             {
-
                 int n = dgvPhieuXuat.Rows.Add();
                 dgvPhieuXuat.Rows[n].Cells[0].Value = dr["Id"].ToString();
-                dgvPhieuXuat.Rows[n].Cells[1].Value = dr["Code"].ToString();
-                dgvPhieuXuat.Rows[n].Cells[2].Value = dr["UserName"].ToString();
-                dgvPhieuXuat.Rows[n].Cells[3].Value = dr["Name"].ToString();
-                dgvPhieuXuat.Rows[n].Cells[4].Value = dr["AgentName"].ToString();
-                dgvPhieuXuat.Rows[n].Cells[5].Value = dr["Phone"].ToString();
-                dgvPhieuXuat.Rows[n].Cells[6].Value = dr["Email"].ToString();
-                dgvPhieuXuat.Rows[n].Cells[7].Value = dr["Address"].ToString();
-                dgvPhieuXuat.Rows[n].Cells[8].Value = Convert.ToDateTime(dr["CreatedDate"]).ToString("dd/MM/yyyy");
-                dgvPhieuXuat.Rows[n].Cells[9].Value = dr["TypePayment"].ToString();
-                dgvPhieuXuat.Rows[n].Cells[10].Value = dr["Status"].ToString();
+                dgvPhieuXuat.Rows[n].Cells[1].Value = dr["OrderName"].ToString();
+                if (dr["UserName"] != null)
+                {
+                    string userName = Convert.ToString(dr["UserName"]);
+                    if (!string.IsNullOrEmpty(userName))
+                    {
+                        var acount = GetAcountByUserName(userName);
+                        if (acount != null && !string.IsNullOrEmpty(acount.Name) && !string.IsNullOrEmpty(acount.UserName))
+                        {
+                            dgvPhieuXuat.Rows[n].Cells[2].Value = acount.UserName;
+                            dgvPhieuXuat.Rows[n].Cells[3].Value = acount.Name;
+                        }
+                    }
+                }
+                dgvPhieuXuat.Rows[n].Cells[3].Value = dr["UserName"].ToString();
+                dgvPhieuXuat.Rows[n].Cells[4].Value = dr["Phone"].ToString();
+                dgvPhieuXuat.Rows[n].Cells[5].Value = dr["Address"].ToString();
+                dgvPhieuXuat.Rows[n].Cells[6].Value = dr["Total"].ToString();
+                dgvPhieuXuat.Rows[n].Cells[7].Value = Convert.ToDateTime(dr["CreateDate"]).ToString("dd/MM/yyyy");
+                //string statusstr = "";
+                if (dr["TypePaymet"] != null && !string.IsNullOrEmpty(Convert.ToString(dr["TypePaymet"])))
+                {
+                    var payment = new Payment();
+                    string typePaymet = Convert.ToString(dr["TypePaymet"]);
 
+                    var  typePaymetStr = payment.GetPaymentByName(typePaymet);
+                    dgvPhieuXuat.Rows[n].Cells[8].Value = typePaymetStr.Text;
+                }
+                dgvPhieuXuat.Rows[n].Cells[9].Value = dr["StatusPayment"].ToString();
+                if (dr["Status"] != null && !string.IsNullOrEmpty(Convert.ToString(dr["Status"])))
+                {
+                    var statusOrderExport = new StatusOrderExport();
+                    var statusServer = Convert.ToInt32(dr["Status"]);
+
+                    var typePaymetStr = StatusOrderExport.GetOrderByName(statusServer);
+                    dgvPhieuXuat.Rows[n].Cells[10].Value = typePaymetStr.Text;
+                }
             }
             if (con.State == ConnectionState.Open)
             {
@@ -94,37 +136,40 @@ namespace BaiTap
         {
             var model = new OrderExportModel();            
             model.Code = txsMaPhieu.Text;
-            model.UserName = cmbNhanVien.SelectedValue.ToString();
-            model.AgentName = txtTenDaiLy.Text;
+            //model.UserName = cmbNhanVien.SelectedValue.ToString();
+            model.UserName = txtTenDaiLy.Text;
+            //model.AgentName = txtTenDaiLy.Text;
             model.Phone = txtPhone.Text;
-            model.Email = txtEmail.Text;
             model.Address = txtAddress.Text;           
-            model.TypePayment = cmbPuongThucThanhToan.SelectedItem.ToString();
-            model.Status = cmbTinhTrang.SelectedItem.ToString();
-            model.CreatedDate = datetimpiceNgayNhap.Value;
+            model.TypePayment = cmbPuongThucThanhToan.SelectedValue.ToString();
+            model.StatusTypePayment = cmbTinhTrangThanhToan.SelectedItem.ToString();
+            model.Status = Convert.ToInt32(cmbTinhTrang.SelectedValue.ToString());
+            model.CreatedDate = datetimpiceNgayTao.Value;
+            //model.ExportDate = datetimpiceNgayXuat.Value;
+            model.Total = (!string.IsNullOrEmpty(txtTongSanPham.Text) ? Convert.ToInt32(txtTongSanPham.Text):0);
             return model;
         }
         public void SetValue(OrderExportModel model)
         {
             txsMaPhieu.Text = model.Code;
-            cmbNhanVien.SelectedValue = model.UserName;
-            txtTenDaiLy.Text = model.AgentName;
+           // cmbNhanVien.SelectedValue = model.UserName;
+            txtTenDaiLy.Text = model.UserName;
             txtPhone.Text = model.Phone;
-            txtEmail.Text = model.Email;
             txtAddress.Text = model.Address;
             cmbPuongThucThanhToan.SelectedItem = model.TypePayment;
             cmbTinhTrang.SelectedItem = model.Status;
         }
         public void SetValueNull()
         {
+            txsMaPhieu.ReadOnly = false;
             txsMaPhieu.Text = "";
-            cmbNhanVien.SelectedValue = "";
             txtTenDaiLy.Text = "";
             txtPhone.Text = "";
-            txtEmail.Text = "";
             txtAddress.Text = "";
             cmbPuongThucThanhToan.SelectedItem = "";
             cmbTinhTrang.SelectedItem = "";
+            txtTongSanPham.Text = "";
+            cmbTinhTrangThanhToan.Items.Clear();            
         }
 
         private void btnThem_Click(object sender, EventArgs e)
@@ -144,10 +189,32 @@ namespace BaiTap
                 }
                 else
                 {
-                    //model.NgayNhap = DateTime.Now;
-                    //var qry = "insert into OrderImport values('" + model.MaPhieu + "','" + model.UserName + "','" + model.NgayNhap + "'," + model.Total + ",'N" + model.Note + "')";
-                    var qry = "Insert into OrderExport(Code, UserName, AgentName, Phone, Email, Address, TypePayment, Status,CreatedDate) values('" + model.Code + "','" + model.UserName + "',N'" + model.AgentName + "','" + model.Phone + "','" + model.Email + "',N'" + model.Address + "',N'" + model.TypePayment + "',N'" + model.Status + "','" + model.CreatedDate + "')";
-                        //"values('" + model.Code + "','"+model.UserName+"','"+model.AgentName+"','"+model.Phone+"','"+model.Email+"',N'"+model.Address+"',N'"+model.TypePayment+"',N'"+model.Status+"')";
+                    //var acounts = GetAcountByUserName(model.UserName);
+                    //if (acounts != null && !string.IsNullOrEmpty(acounts.UserName) && !string.IsNullOrEmpty(acounts.Name))
+                    //{
+                    //    model.UserName = acounts.UserName;
+                    //}
+                    var qry = "Insert into Orders(Name," +
+                        "UserName, " +
+                        "CreateDate, " +
+                        "Status," +
+                        "Address, " +
+                        "Phone, " +
+                        "Total, " +
+                        "TypePaymet, " +
+                        //"ExportDate, " +
+                        "StatusPayment) " +
+                        "values('" + model.Code + "'," +
+                        "N'" + model.UserName + "'," +
+                        "'" + model.CreatedDate + "','" +
+                        "" + model.Status + "'," +
+                        "N'" + model.Address + "'," +
+                        "'" + model.Phone + "'," +
+                        "" + model.Total + "," +
+                        "N'" + model.TypePayment + "'," +
+                        //"'" + model.ExportDate + "'," +
+                        "N'" + model.StatusTypePayment + "')";
+                        
                     SqlCommand sc = new SqlCommand(qry, con);
                     if (con.State == ConnectionState.Closed)
                     {
@@ -226,23 +293,69 @@ namespace BaiTap
             return false;
 
         }
+        public Accounts GetAcountByUserName(string userName)
+        {
+            if (con.State == ConnectionState.Closed)
+            {
+                con.Open();
+            }
+            string query = "";
+            if (!string.IsNullOrEmpty(userName))
+            {
+                query = "select * from Accounts where username = @maP";
+            }
+            SqlDataAdapter sda = new SqlDataAdapter(query, con);
+
+            sda.SelectCommand.Parameters.AddWithValue("@maP", userName);
+
+            DataTable data = new DataTable();
+            sda.Fill(data);
+            if (data.Rows.Count > 0)
+            {
+                var acount = new Accounts();
+                foreach (DataRow dr in data.Rows)
+                {
+                    acount.UserName = Convert.ToString(dr["username"]);
+                    acount.Name = dr["name"].ToString();                   
+                }
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+                return acount;
+            }
+            if (con.State == ConnectionState.Open)
+            {
+                con.Close();
+            }
+            return null;
+        }
+
+
+
+
 
         private void btnSua_Click(object sender, EventArgs e)
         {
             try
             {
-                con.Open();
+                if (con.State == ConnectionState.Closed)
+                {
+                    con.Open();
+                }
                 var model = GetValue();
-                String qry = "Update OrderExport set " +
-                    "CreatedDate ='"+ model.CreatedDate + "'," +
-                    "AgentName =N'"+model.AgentName+"', " +
-                    "Phone ='"+model.Phone+"', " +
-                    "Email ='"+model.Email+"', " +
+                String qry = "Update Orders set " +
+                    "Name =N'" + model.Code + "'," +
+                    "Username =N'" + model.UserName + "'," +
+                    "Phone ='" +model.Phone+"', " +
                     "Address =N'"+model.Address+"', " +
-                    "Total ='"+model.Total+"', " +
-                    "TypePayment =N'"+model.TypePayment+"', " +
-                    "Status =N'" + model.Status+"'" +
-                    "Where Id='"+ OrderExportId + "'";
+                    "Total ="+model.Total+", " +
+                    "TypePaymet =N'" + model.TypePayment+"', " +
+                    "StatusPayment =N'" + model.StatusTypePayment + "', " +
+                    "Status =" + model.Status+", " +
+                    "CreateDate ='" + model.CreatedDate + "'" +
+                    //"ExportDate ='" + model.ExportDate + "' " +
+                    "Where ID=" + OrderExportId + "";
                 SqlCommand sc = new SqlCommand(qry, con);
                 int i = sc.ExecuteNonQuery();
                 if (i >= 1)
@@ -255,7 +368,10 @@ namespace BaiTap
                 {
                     MessageBox.Show("Cập nhật " + model.Code + " không thành công.");
                 }
-                con.Close();
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
                 OrderExportId = 0;
             }
             catch (System.Exception exp)
@@ -272,7 +388,7 @@ namespace BaiTap
             {
                 con.Open();
                 string map = txsMaPhieu.Text.ToString();
-                string qry = "delete from OrderExport where Id='" + OrderExportId + "'";
+                string qry = "delete from Orders where ID=" + OrderExportId;
                 SqlCommand sc = new SqlCommand(qry, con);
                 int i = sc.ExecuteNonQuery();
                 if (i >= 1)
@@ -311,6 +427,7 @@ namespace BaiTap
         }
         private void dgvPhieuXuat_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            txsMaPhieu.ReadOnly = true;
             foreach (DataGridViewCell cell in dgvPhieuXuat.SelectedCells)
             {
                 //cell.RowIndex
@@ -328,10 +445,10 @@ namespace BaiTap
                 {
                     txsMaPhieu.Text = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdMaPhieu"].Value.ToString();
                 }
-                if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdMaNV"].Value != null)
-                {
-                    cmbNhanVien.SelectedValue = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdMaNV"].Value.ToString();
-                }               
+                //if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdUserName"].Value != null)
+                //{
+                //    cmbNhanVien.SelectedValue = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdUserName"].Value.ToString();
+                //}               
                 if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdTenDaiLy"].Value != null)
                 {
                     txtTenDaiLy.Text = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdTenDaiLy"].Value.ToString();
@@ -340,33 +457,62 @@ namespace BaiTap
                 {
                     txtPhone.Text = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdPhone"].Value.ToString();
                 }
-                if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdEmail"].Value != null)
-                {
-                    txtEmail.Text = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdEmail"].Value.ToString();
-                }
                 if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdDiaChi"].Value != null)
                 {
                     txtAddress.Text = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdDiaChi"].Value.ToString();                   
                 }
-                if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdNgayXuat"].Value != null)
+                if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdTongSanPham"].Value != null)
                 {
-                    datetimpiceNgayNhap.Value = Convert.ToDateTime(ConvertDateTime(dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdNgayXuat"].Value.ToString()));
+                    txtTongSanPham.Text = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdTongSanPham"].Value.ToString();
                 }
+                if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdNgayTao"].Value != null)
+                {
+                    datetimpiceNgayTao.Value = Convert.ToDateTime(ConvertDateTime(dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdNgayTao"].Value.ToString()));
+                }
+                //if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdNgayXuat"].Value != null)
+                //{
+                //    datetimpiceNgayXuat.Value = Convert.ToDateTime(ConvertDateTime(dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdNgayXuat"].Value.ToString()));
+                //}
                 if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdPhuongThucThanhToan"].Value != null)
                 {
-                    cmbPuongThucThanhToan.SelectedItem = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdPhuongThucThanhToan"].Value.ToString();
+                    string phuongthucthanhtoanstr = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdPhuongThucThanhToan"].Value.ToString();
+                    var payment = new Payment();
+                    var paymentOrder = payment.GetPaymentByName(phuongthucthanhtoanstr);
+
+                    cmbPuongThucThanhToan.SelectedValue = paymentOrder.Name;
+                }
+
+                if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdPaymentStatus"].Value != null)
+                {
+                    cmbTinhTrangThanhToan.SelectedItem = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdPaymentStatus"].Value.ToString();
                 }
                 if (dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdTinhTrang"].Value != null)
                 {
-                    cmbTinhTrang.SelectedItem = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdTinhTrang"].Value.ToString();
+                    string statusStr = dgvPhieuXuat.Rows[cell.RowIndex].Cells["tdTinhTrang"].Value.ToString();                    
+                    var statusOrderExport = StatusOrderExport.GetOrderByName(-1,statusStr);
+                    cmbTinhTrang.SelectedValue = statusOrderExport.Name;
                 }
             }
+        }
+        public void LoadComboxPayMentType()
+        {        
+            cmbPuongThucThanhToan.DisplayMember = "Text";
+            cmbPuongThucThanhToan.ValueMember = "Name";
+            cmbPuongThucThanhToan.DataSource = Payment.Payments;
+        }
+        public void LoadComboxStatus()
+        {
+            cmbTinhTrang.DisplayMember = "Text";
+            cmbTinhTrang.ValueMember = "Name";
+            cmbTinhTrang.DataSource = StatusOrderExport.OrderStatus;
         }
 
         private void OrderExport_Load(object sender, EventArgs e)
         {
+            LoadComboxPayMentType();
+            LoadComboxStatus();
             LoadFormcustom();
-            LoadDataCombobox();
+           // LoadDataCombobox();
         }
 
         private void btnReset_Click(object sender, EventArgs e)

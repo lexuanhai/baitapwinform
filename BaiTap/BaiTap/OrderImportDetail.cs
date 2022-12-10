@@ -16,7 +16,7 @@ namespace BaiTap
     public partial class OrderImportDetail : Form
     {
         private int OrderDetailImportId = 0;
-        SqlConnection con = new SqlConnection("Data Source=DESKTOP-DDVHBI0;Initial Catalog=MyPham;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=MyPham;Integrated Security=True");
         public OrderImportDetail()
         {
             InitializeComponent();

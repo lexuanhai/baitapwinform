@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyPhamModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="MyPhamModelStoreContainer">
+    <EntitySet Name="OrderDetails" EntityType="MyPhamModel.Store.OrderDetails" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Products" EntityType="MyPhamModel.Store.Products" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Accounts" EntityType="MyPhamModel.Store.Accounts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Orders" EntityType="MyPhamModel.Store.Orders" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="OrderDetails">
+    <Key>
+      <PropertyRef Name="ProductID" />
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="ProductID" Type="int" Nullable="false" />
+    <Property Name="OrderID" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="true" />
+    <Property Name="Price" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="Products">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="img" Type="nvarchar" Nullable="true" MaxLength="100" />
+    <Property Name="description" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="price" Type="float" Nullable="true" />
+    <Property Name="count" Type="int" Nullable="true" />
+    <Property Name="pricefordistributors" Type="float" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Accounts">
+    <Key>
+      <PropertyRef Name="username" />
+    </Key>
+    <Property Name="username" Type="nvarchar" Nullable="false" MaxLength="225" />
+    <Property Name="password" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="address" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="phone" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="phone2" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="address2" Type="nvarchar" Nullable="true" MaxLength="255" />
+    <Property Name="type" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="CreateDate" Type="datetime" Nullable="true" />
+    <Property Name="Username" Type="nvarchar" Nullable="true" MaxLength="16" />
+    <Property Name="Status" Type="int" Nullable="true" />
+    <Property Name="Address" Type="nvarchar" Nullable="true" MaxLength="255" />
+    <Property Name="Phone" Type="nchar" Nullable="true" MaxLength="10" />
+    <Property Name="Total" Type="float" Nullable="true" />
+    <Property Name="TypePaymet" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="StatusPayment" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+</Schema>

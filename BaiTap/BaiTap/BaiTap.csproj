@@ -52,6 +52,7 @@
     <Compile Include="ChuongTrinhQuanLy.Designer.cs">
       <DependentUpon>ChuongTrinhQuanLy.cs</DependentUpon>
     </Compile>
+    <Compile Include="data\EnumMaster.cs" />
     <Compile Include="data\KhachHangModel.cs" />
     <Compile Include="data\OrderExportDetailModel.cs" />
     <Compile Include="data\OrderExportModel.cs" />

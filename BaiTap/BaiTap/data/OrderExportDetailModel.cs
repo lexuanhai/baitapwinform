@@ -27,6 +27,9 @@ public class OrderExportDetailPDFModel
     // hóa đơn xuất
     public string STT { get; set; }
     public string CodeOrder { get; set; }
+    public string StatusPayment { get; set; }
+    
+
     // nhân viên
     public string MaNV { get; set; }
     public string Name { get; set; }

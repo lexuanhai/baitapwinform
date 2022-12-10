@@ -15,4 +15,9 @@ namespace BaiTap.data
         public int SoNgayO { get; set; }
         public decimal ThanhTien { get; set; }
     }
+    public class Accounts
+    {
+        public string UserName { get; set; }
+        public string Name { get; set; }
+    }
 }
